@@ -19,8 +19,8 @@ class TestIT3(TestCase):
 
     def test_raw_text(self):
         for lang in self.languages:
-            it3_con = WXC(order='utf2it3', lang=lang)
-            utf_con = WXC(order='it32utf', lang=lang)
+            it3_con = IT3C(order='utf2it3', lang=lang)
+            utf_con = IT3C(order='it32utf', lang=lang)
             with io.open('%s/plain_text/%s.txt' % (self.test_dir, lang),
                          encoding='utf-8') as fp:
                 for line in fp:
