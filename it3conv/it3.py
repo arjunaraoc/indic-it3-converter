@@ -3,7 +3,7 @@
 
 # Copyright Irshad Ahmad Bhat 2016.
 # Copyright Arjuna Rao Chavala 2018
-# IT3 mapping(select language) 
+# IT3 mapping(select language)
 # Another javascript/conversion example at
 
 from __future__ import unicode_literals
