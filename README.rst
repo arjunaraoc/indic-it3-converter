@@ -1,16 +1,16 @@
-indic-wx-converter
+indic-it3-converter
 ==================
 
 |Build Status| |Coverage Status| |CircleCI|
 
-.. |Build Status| image:: https://travis-ci.org/ltrc/indic-wx-converter.svg?branch=master 
-   :target: https://travis-ci.org/ltrc/indic-wx-converter
+.. |Build Status| image:: https://travis-ci.org/ltrc/indic-it3-converter.svg?branch=master 
+   :target: https://travis-ci.org/ltrc/indic-it3-converter
 
-.. |Coverage Status| image:: https://coveralls.io/repos/github/ltrc/indic-wx-converter/badge.svg?branch=master 
-   :target: https://coveralls.io/github/ltrc/indic-wx-converter?branch=master
+.. |Coverage Status| image:: https://coveralls.io/repos/github/ltrc/indic-it3-converter/badge.svg?branch=master 
+   :target: https://coveralls.io/github/ltrc/indic-it3-converter?branch=master
 
-.. |CircleCI| image:: https://circleci.com/gh/ltrc/indic-wx-converter.svg?style=shield&circle-token=:circle-token 
-    :target: https://circleci.com/gh/ltrc/indic-wx-converter
+.. |CircleCI| image:: https://circleci.com/gh/ltrc/indic-it3-converter.svg?style=shield&circle-token=:circle-token 
+    :target: https://circleci.com/gh/ltrc/indic-it3-converter
 
 
 Python library for UTF to WX conversion and vice-versa for Indian languages.
@@ -21,9 +21,9 @@ Installation
 Download
 ^^^^^^^^
 
-Download **indic-wx-converter**  from `github`_.
+Download **indic-it3-converter**  from `github`_.
 
-.. _`github`: https://github.com/irshadbhat/indic-wx-converter
+.. _`github`: https://github.com/irshadbhat/indic-it3-converter
 
 Install
 ^^^^^^^
@@ -31,10 +31,10 @@ Install
 ::
 
     Clone the repository:
-        git clone https://github.com/ltrc/indic-wx-converter
+        git clone https://github.com/ltrc/indic-it3-converter
 
     Change to the cloned directory:
-        cd indic-wx-converter
+        cd indic-it3-converter
         pip install -r requirements.txt
         python setup.py install
 
@@ -46,7 +46,7 @@ Examples
 
 .. parsed-literal::
 
-    wxconv --f ssf --t intra --n --l hin --s utf --i hin-utf.ssf --o hin-wx.ssf
+    it3conv --f ssf --t intra --n --l hin --s utf --i hin-utf.ssf --o hin-it3.ssf
 
     -l , --language     select language (3 letter ISO-639 code)
                                         Hindi       : hin
@@ -64,7 +64,7 @@ Examples
                                         Konkani     : kok
                                         Assamese    : asm
                                         Urdu        : urd
-    -s , --source-enc   {utf, wx} select input-file encoding
+    -s , --source-enc   {utf, it3} select input-file encoding
     -f , --format       {text, ssf, conll, bio, tnt} select input-file format
     -t , --ssf-type     {inter, intra} specify ssf-type if file format (-f) is ssf
     -n, --nested        set this flag for nested ssf
@@ -73,31 +73,31 @@ Examples
     -o , --output       <output-file>
     -z, --normalize     set this flag for utf normalizations without WX-Conversion
 
-2. utf to wx (plain text):
+2. utf to it3 (plain text):
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
-    >>> from it3conv import WXC
+    >>> from it3conv import IT3C
     >>>
-    >>> # class WXC(order="utf2wx", format_="text", lang="hin")
-    ... # Parameters: order:str, (default="utf2wx"), source2target encoding [wx2utf|utf2wx]
+    >>> # class IT3C(order="utf2it3", format_="text", lang="hin")
+    ... # Parameters: order:str, (default="utf2it3"), source2target encoding [it32utf|utf2it3]
     ... #
 
-    >>> from it3conv import WXC
+    >>> from it3conv import IT3C
     >>>
-    >>> # class WXC(order="utf2wx", format_="text", lang="hin")
-    ... # Parameters: order:str, (default="utf2wx"), source2target encoding [wx2utf|utf2wx]
+    >>> # class IT3C(order="utf2it3", format_="text", lang="hin")
+    ... # Parameters: order:str, (default="utf2it3"), source2target encoding [it32utf|utf2it3]
     ... #
 
-    >>> from wxconv import WXC
+    >>> from it3conv import IT3C
     >>> 
-    >>> # class WXC(order="utf2wx", format_="text", lang="hin")
-    ... # Parameters: order:str, (default="utf2wx"), source2target encoding [wx2utf|utf2wx]
+    >>> # class IT3C(order="utf2it3", format_="text", lang="hin")
+    ... # Parameters: order:str, (default="utf2it3"), source2target encoding [it32utf|utf2it3]
     ... #             format_:str, (default="text"), output format [text|conll|bio|tnt]
     ... #             lang:str, (default="hin"), language parameter [hin|tel|...] (3 letter ISO-639 code)
 
-    >>> con = WXC(order='utf2wx')  # here default language is hindi and default format is text
+    >>> con = IT3C(order='utf2it3')  # here default language is hindi and default format is text
     >>> 
     >>> hin = u"""
     ... 1   देश के कई हिस्सों में सूखे के आसार उत्पन्न हो गए हैं
@@ -123,7 +123,7 @@ Examples
     ... 5   అవకాశం వచ్చిన వారికి ఎక్స్‌పోజర్‌కూడా వస్తుంది.
     ... """
     >>> 
-    >>> con = WXC(order='utf2wx', lang='tel')
+    >>> con = IT3C(order='utf2it3', lang='tel')
     >>>
     >>> print(con.convert(tel))
     
@@ -135,12 +135,12 @@ Examples
     
     >>> 
 
-3. wx to utf:
+3. it3 to utf:
 ^^^^^^^^^^^^^
 
 .. code:: python
 
-    >>> con = WXC(order='wx2utf', lang='hin')
+    >>> con = IT3C(order='it32utf', lang='hin')
     >>> 
     >>> hin = """
     ... 1   xeSa ke kaI hissoM meM sUKe ke AsAra uwpanna ho gae hEM
@@ -165,7 +165,7 @@ Examples
 
 .. code:: python
 
-    >>> con = WXC(order='utf2wx', lang='hin', format_='conll')
+    >>> con = IT3C(order='utf2it3', lang='hin', format_='conll')
     >>> 
     >>> conll = u"""
     ... 1       इसकी     यह      pn      PRP     cat-pn|gen-f|num-sg|pers-3|case-o|vib-का|tam-kA|chunkId-NP|chunkType-head|stype-|voicetype-      2     r6      _       _
@@ -208,7 +208,7 @@ Examples
     ... ।       SYM
     ... """
     >>> 
-    >>> con = WXC(order='utf2wx', lang='hin', format_='tnt')
+    >>> con = IT3C(order='utf2it3', lang='hin', format_='tnt')
     >>> 
     >>> print(con.convert(tnt))
     
