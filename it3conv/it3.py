@@ -3,8 +3,8 @@
 
 # Copyright Irshad Ahmad Bhat 2016.
 # Copyright Arjuna Rao Chavala 2018
-#IT3 mapping(select language) at https://web.archive.org/web/20150312042230/http://www.ulib.org/ILhandle.html
-#Another javascript/conversion example at
+# IT3 mapping(select language) 
+# Another javascript/conversion example at
 
 from __future__ import unicode_literals
 
@@ -907,7 +907,7 @@ class IT3():
             "\xF9": "\u0AEE",  # Digit 8
             "\xFA": "\u0AEF",  # Digit 9
         }
-        #WX to IT3 to be done in the following line of code
+        # WX to IT3 to be done in the following line of code
         # compile regexes
         const = 'kKgGfcCjJFtTdDNwWxXnpPbBmyrlvSsRh'
         self.ceVmd = re.compile("([%s])eV([MHz])" % const)
