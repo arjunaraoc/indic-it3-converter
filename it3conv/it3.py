@@ -95,17 +95,17 @@ class IT3():
             "kh": "\xB4",
             "g": "\xB5",
             "gh": "\xB6",
-            "f": "\xB7",
+            "ng~": "\xB7",
             "ch": "\xB8",
             "chh": "\xB9",
             "j": "\xBA",
             "jh": "\xBB",
-            "F": "\xBC",
-            #"t": "\xBD",
-            #"T": "\xBE",
-            #"d": "\xBF",
-            #"D": "\xC0",
-            "N": "\xC1",
+            "nj~": "\xBC",
+            "t:": "\xBD",
+            "t:h": "\xBE",
+            "d:": "\xBF",
+            "d:h": "\xC0",
+            "nd~": "\xC1",
             "t": "\xC2",
             "th": "\xC3",
             "d": "\xC4",
@@ -122,16 +122,17 @@ class IT3():
             "v": "\xD4",
             "sh": "\xD5",
             "s": "\xD7",
-            "R": "\xD6",
+            "shh": "\xD6",
             "h": "\xD8",
             "_": "\xE8",
             "Z": "\xE9",
             ".": "\xEA",
             "Y": "\xFB",
             "lY": "\xD2",
-            # Added for tamil
-            "rY": "\xD0",
+            # Added for tamil/telugu
+            "r:": "\xD0",
             "nY": "\xC7",
+            "l:": "\xD2",
             "lYY": "\xD3",
         }
         # VOWELS
@@ -140,31 +141,33 @@ class IT3():
             "aa": "\xA5",
             "aA": "\xA5",
             "i": "\xA6",
-            "ai": "\xA6",
+            # "ai": "\xA6",
             "ii": "\xA7",
             "aI": "\xA7",
             "u": "\xA8",
-            "au": "\xA8",
+            # "au": "\xA8",
             "uu": "\xA9",
             "aU": "\xA9",
             "rx": "\xAA",
             "aq": "\xAA",
             "e": "\xAB",
             "rx~": "\xAB",
-            # "e": "\xAC",
+            "ei": "\xAC",
             "ae": "\xAC",
             "ee": "\xAD",
-            "aE": "\xAD",
+            #"aE": "\xAD",
+            "ai":"\xAD",
             "EY": "\xAE",
             "aEY": "\xAE",
             "o": "\xAF",
             "aoV": "\xAF",
             #"o": "\xB0",
             "ao": "\xB0",
-            "oo": "\xB1",
+            "oo": "\xB0",
             "aO": "\xB1",
             "OY": "\xB2",
-            "aOY": "\xB2",
+            # "aOY": "\xB2",
+            "au":"\xB1",
         }
         # MATRA
         self.hashm_om2i = {
@@ -172,31 +175,32 @@ class IT3():
             "aa": "\xDA",
             "aA": "\xDA",
             "i": "\xDB",
-            "aI": "\xDB",
+            #"aI": "\xDB",
             "ii": "\xDC",
-            "aI": "\xDC",
+            #"aI": "\xDC",
             "u": "\xDD",
-            "au": "\xDD",
+            # "au": "\xDD",
             "uu": "\xDE",
             "aU": "\xDE",
-            "q": "\xDF",
-            "aq": "\xDF",
+            "rx": "\xDF",
+            "rx~": "\xDF",
             "e": "\xE0",
             "aeV": "\xE0",
-            # "e": "\xE1",
+            "ei": "\xE1",
             "ae": "\xE1",
             "E": "\xE2",
-            "aE": "\xE2",
+            "ai": "\xE2",
             "EY": "\xE3",
             "aEY": "\xE3",
             "o": "\xE4",
             "aoV": "\xE4",
-            #"o": "\xE5",
+            "oo": "\xE5",
             "ao": "\xE5",
             "O": "\xE6",
-            "aO": "\xE6",
+            "au": "\xE6",
             "OY": "\xE7",
             "aOY": "\xE7",
+
         }
         # MODIFIERS
         self.hashmd_om2i = {
@@ -910,36 +914,65 @@ class IT3():
         }
         # WX to IT3 to be done in the following line of code
         # compile regexes
-        const = 'kgfcjtdpbmyrlvsh'
-        self.ceVmd = re.compile("([%s])eV([MHz])" % const)
-        self.ceV = re.compile("([%s])eV" % const)
+        const = 'kgfcjtdpbmylvshrn'
+        # special consonants which take two or more letters
+        constsp ='t:|d:|ng~|nj~|nd~|l:|r:'
+        #self.ceVmd = re.compile("([%s])eV([MHz])" % const)
+        self.cspe3md = re.compile("(%s)(ei|ai|au)(n?:)" % constsp)
+        self.cspvmd = re.compile("(%s)([aeiou]{1,2})(n?:)" % constsp)
+        self.cspa=re.compile("((%s)h{0,2})a" % constsp)
+        self.csp= re.compile("(%s)h{0,2}" % constsp)
+        self.cspamd = re.compile("(%s)a(n?:)" % constsp)
+        self.cspv = re.compile("(%s[aeiou]{1,2})" % constsp)
+
+        self.ce3md = re.compile("([%s])(ei|ai|au)(n?:)" % const)
+        self.ce3 = re.compile("([%s])(ei|ai|au)" % const)
+        self.ca = re.compile("([%s]h{0,2})a" % const)
+        self.c = re.compile("([%s])h{0,2}" % const)
+        self.cvmd = re.compile("([%s])([aeiou]{1,2})(n?:)" % const)
+        self.cv = re.compile("([%s])([aeiou]{1,2})" % const)
+        self.camd = re.compile("([%s])a(n?:)" % const)
+
+
         #self.cZeV = re.compile("([%s])ZeV" % const)
         #self.cZeVmd = re.compile("([%s])ZeV([MHz])" % const)
-        self.cEYmd = re.compile("([%s])EY([MHz])" % const)
-        self.cEY = re.compile("([%s])EY" % const)
-        self.cOYmd = re.compile("([%s])OY([MHz])" % const)
-        self.coVmd = re.compile("([%s])oV([MHz])" % const)
-        self.coV = re.compile("([%s])oV" % const)
+
+        ## TO DO MAP PROCESSING..
+
+        #self.cEYmd = re.compile("([%s])EY([MHz])" % const)
+        #self.cEY = re.compile("([%s])EY" % const)
+        #self.cOYmd = re.compile("([%s])OY([MHz])" % const)
+        #self.coVmd = re.compile("([%s])oV([MHz])" % const)
+        #self.coV = re.compile("([%s])oV" % const)
         #self.cZoV = re.compile("([%s])ZoV" % const)
         #self.cZoVmd = re.compile("([%s])ZoV([MHz])" % const)
-        self.cOY = re.compile("([%s])OY" % const)
+        #self.cOY = re.compile("([%s])OY" % const)
         #self.cZOY = re.compile("([%s])ZOY" % const)
-        self.cvmd = re.compile("([%s])([aeiou]{1,2})(n?:)" % const)
+
+
         #self.cZvmd = re.compile("([%s])Z([AiIuUeEoO])([MHz])" % const)
-        self.cv = re.compile("([%s])([aeiou]{1,2})" % const)
+
+
         #self.cZv = re.compile("([%s])Z([AiIuUeEoO])" % const)
-        self.camd = re.compile("([%s])a(n?:)" % const)
+
         #self.cZamd = re.compile("([%s])Za([MHz])" % const)
         #self.cZmd = re.compile("([%s])Z([MHz])" % const)
-        self.ca = re.compile("([%s]h{0,2})a" % const)
+
         #self.cZa = re.compile("([%s])Za" % const)
         #self.cYZa = re.compile("([%s])YZa" % const)
-        self.c = re.compile("([%s])h{0,2}" % const)
+
+
+
         #self.cZ = re.compile("([%s])Z" % const)
-        self.aqmd = re.compile("aq([MHz])")
-        self.cq = re.compile("([%s])q" % const)
-        self.cqmd = re.compile("([%s])q([MHz])" % const)
-        self.qmd = re.compile("q([MHz])")
+        #self.aqmd = re.compile("aq([MHz])")
+
+
+
+        self.cspqmd= re.compile("(%s)rx(n?:)" % constsp)
+        self.cspq= re.compile("(%s)rx" % constsp)
+        self.cqmd = re.compile("([%s])rx(n?:)" % const)
+        self.cq = re.compile("([%s])rx" % const)
+        self.qmd = re.compile("rx(n?:)")
         self.dig = re.compile("([0-9])")
         self.i2u = re.compile('([\xA1-\xFB])')
 
@@ -1862,6 +1895,53 @@ class IT3():
             self.hashm_om2i["EY"],
             my_string)
         return my_string
+    # to handle consonants followed by special vowels
+    def map_e3(self, my_string):
+        if re.search("(ei|ai|au)", my_string) is None:
+            return my_string
+        my_string = self.cspe3md.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+                      self.hashm_om2i[m.group(2)] +
+                      self.hashmd_om2i[
+                m.group(3)],
+            my_string)
+        my_string = self.cspe3.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashm_om2i[m.group(2)],
+            my_string)
+        my_string = self.ce3md.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+                      self.hashm_om2i[m.group(2)] +
+                      self.hashmd_om2i[
+                m.group(3)],
+            my_string)
+        return my_string
+        my_string = self.ce3.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashm_om2i[m.group(2)],
+            my_string)
+        return my_string
+
+    def map_sp(self, my_string):
+        if re.search("(ei|ai|au)", my_string) is None:
+            return my_string
+        my_string = self.ce3md.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+                      self.hashm_om2i[m.group(2)] +
+                      self.hashmd_om2i[
+                m.group(3)],
+            my_string)
+        my_string = self.ce3.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashm_om2i[m.group(2)],
+            my_string)
+        return my_string
 
     def map_ZoV(self, my_string):
         if 'ZoV' not in my_string:
@@ -1974,32 +2054,47 @@ class IT3():
                       self.hashc_om2i["_"],
             my_string)
         return my_string
-
+    # modified for it3 with same name (q is for the letter r and its variants)
     def map_q(self, my_string):
-        if 'q' not in my_string:
+        if re.search("rx", my_string) is None:
             return my_string
+        my_string = self.cspqmd.sub(
+            lambda m: self.hashc_om2i[
+                          m.group(1)] +
+                      self.hashm_om2i["rx"] +
+                      self.hashmd_om2i[
+                          m.group(2)],
+            my_string)
         my_string = self.cqmd.sub(
             lambda m: self.hashc_om2i[
                 m.group(1)] +
-                      self.hashm_om2i["q"] +
+                      self.hashm_om2i["rx"] +
                       self.hashmd_om2i[
                 m.group(2)],
             my_string)
+
         my_string = self.qmd.sub(
-            lambda m: self.hashv_om2i["q"] +
+            lambda m: self.hashv_om2i[m.group(1)] +
                       self.hashmd_om2i[
-                m.group(1)],
+                "rx"],
+            my_string)
+        my_string = self.cspq.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashm_om2i["rx"],
             my_string)
         my_string = self.cq.sub(
             lambda m: self.hashc_om2i[
                 m.group(1)] +
-            self.hashm_om2i["q"],
+            self.hashm_om2i["rx"],
             my_string)
+        '''
         my_string = self.aqmd.sub(
             lambda m: self.hashv_om2i["aq"] +
                       self.hashmd_om2i[
                 m.group(1)],
             my_string)
+        '''
         return my_string
 
     def map_lYY(self, my_string):
@@ -2378,6 +2473,21 @@ class IT3():
         my_string = my_string.replace('eV', self.hashv_om2i["eV"])
         return my_string
 
+    # to handle specially mapped vowels at the begining ei ai au
+    def map_eiaiau(self,my_string):
+        if re.match("(ei|ai|au)", my_string) is None:
+            return my_string
+        my_string = re.sub(
+            "(ei|ai|au)(n?:)",
+            lambda m: self.hashv_om2i[m_group(1)]+
+                        self.hashmd_om2i[m.group(2)],
+            my_string)
+        my_string = re.sub(
+            "(ei|ai|au)",
+            lambda m: self.hashv_om2i[m.group(1)],
+            my_string)
+        return my_string
+
     def map_EY2(self, my_string):
         if 'EY' not in my_string:
             return my_string
@@ -2434,38 +2544,73 @@ class IT3():
             my_string)
         my_string = my_string.replace('OY', self.hashv_om2i["OY"])
         return my_string
-
+    # map for vowels at the begining
     def map_a(self, my_string):
         if 'a' not in my_string:
             return my_string
         my_string = re.sub('\Baa', self.hashv_om2i["aa"], my_string)
         my_string = re.sub('\Bai', self.hashv_om2i["ai"], my_string)
-        my_string = re.sub('\BaI', self.hashv_om2i["aI"], my_string)
+        # my_string = re.sub('\BaI', self.hashv_om2i["aI"], my_string)
         my_string = re.sub('\Bau', self.hashv_om2i["au"], my_string)
-        my_string = re.sub('\BaU', self.hashv_om2i["aU"], my_string)
+        # my_string = re.sub('\BaU', self.hashv_om2i["aU"], my_string)
         my_string = re.sub('\Bae', self.hashv_om2i["ae"], my_string)
-        my_string = re.sub('\BaE', self.hashv_om2i["aE"], my_string)
-        my_string = re.sub('\Bao', self.hashv_om2i["ao"], my_string)
-        my_string = re.sub('\BaO', self.hashv_om2i["aO"], my_string)
+        # my_string = re.sub('\BaE', self.hashv_om2i["aE"], my_string)
+        #my_string = re.sub('\BaO', self.hashv_om2i["aO"], my_string)
+
         return my_string
 
     def it32iscii(self, my_string):
         """Convert it3 to ISCII"""
         if self.lang == 'pan':
             my_string = my_string.replace('EY', self.hashv_om2i["E"] + 'Y')
-        my_string = self.map_ZeV(my_string)
-        my_string = self.map_eV(my_string)
-        my_string = self.map_EY(my_string)
-        my_string = self.map_ZoV(my_string)
-        my_string = self.map_oV(my_string)
-        my_string = self.map_OY(my_string)
-        my_string = self.map_Z(my_string)
-        my_string = self.map_q(my_string)
-        my_string = self.map_lYY(my_string)
-        my_string = self.map_lY(my_string)
-        my_string = self.map_nY(my_string)
-        my_string = self.map_rY(my_string)
 
+        # Added for special vowel mappings of ei ai,au after consonants
+        my_string = self.map_e3(my_string)
+        # for telugu rx retained the map function name for ra processing
+        my_string = self.map_q(my_string)
+
+        my_string = self.map_a(my_string)
+        # my_string = self.map_ZeV(my_string)
+        # my_string = self.map_eV(my_string)
+        # my_string = self.map_EY(my_string)
+
+        # my_string = self.map_ZoV(my_string)
+        # my_string = self.map_oV(my_string)
+        # my_string = self.map_OY(my_string)
+        # my_string = self.map_Z(my_string)
+
+        #my_string = self.map_lYY(my_string)
+        #my_string = self.map_lY(my_string)
+        #my_string = self.map_nY(my_string)
+        #my_string = self.map_rY(my_string)
+        my_string = self.cspvmd.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashm_om2i[
+                m.group(2)] +
+            self.hashmd_om2i[
+                m.group(3)],
+            my_string)
+        my_string = self.cspamd.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashmd_om2i[
+                m.group(2)],
+            my_string)
+        my_string = self.cspa.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)], my_string)
+        my_string = self.cspv.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashm_om2i[
+                m.group(2)],
+            my_string)
+        my_string = self.csp.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashc_om2i["_"],
+            my_string)
         my_string = self.cvmd.sub(
             lambda m: self.hashc_om2i[
                 m.group(1)] +
@@ -2474,12 +2619,7 @@ class IT3():
             self.hashmd_om2i[
                 m.group(3)],
             my_string)
-        my_string = self.cv.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)],
-            my_string)
+
         my_string = self.camd.sub(
             lambda m: self.hashc_om2i[
                 m.group(1)] +
@@ -2489,22 +2629,29 @@ class IT3():
         my_string = self.ca.sub(
             lambda m: self.hashc_om2i[
                 m.group(1)], my_string)
-        my_string = my_string.replace('aq', self.hashv_om2i["aq"])
-        my_string = my_string.replace('q', self.hashv_om2i["aq"])
-        my_string = self.c.sub(
+        my_string = self.cv.sub(
             lambda m: self.hashc_om2i[
                 m.group(1)] +
-            self.hashc_om2i["_"],
+            self.hashm_om2i[
+                m.group(2)],
             my_string)
+
+        # my_string = my_string.replace('aq', self.hashv_om2i["aq"])
+        my_string = my_string.replace('rx', self.hashv_om2i["rx"])
+
+
+
+
         # Added for the case of U0946
-        my_string = self.map_eV2(my_string)
+        # my_string = self.map_eV2(my_string)
         # Added for the case of U0945
-        my_string = self.map_EY2(my_string)
+        # my_string = self.map_EY2(my_string)
         # Added for the case of U094A
-        my_string = self.map_oV2(my_string)
+        # my_string = self.map_oV2(my_string)
         # Added for the case of U0949
-        my_string = self.map_OY2(my_string)
-        my_string = self.map_a(my_string)
+        # my_string = self.map_OY2(my_string)
+
+        my_string = self.map_eiaiau(my_string)
 
         my_string = re.sub(
             '([aeiou]{1,2})(n?:)',
@@ -2519,6 +2666,11 @@ class IT3():
                 m.group(1)],
             my_string)
         my_string = my_string.replace('.', self.hashc_om2i["."])
+        my_string = self.c.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashc_om2i["_"],
+            my_string)
         # For PUNJABI ADDAK
         my_string = my_string.replace("Y", "\xFB")
         # Replace Roman Digits with ISCII
