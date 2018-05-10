@@ -40,7 +40,7 @@ class IT3():
 
     def fit(self):
         file_path = os.path.dirname(os.path.abspath(__file__))
-        self.punctuation = r'!"#$%&\'()*+,-./:;<=>?@\[\\\]^_`{|}~'
+        self.punctuation = r'!"#$%&\'()*+,-./;<=>?@\[\\\]^_`{|}'
         # Handle iscii characters
         self.iscii_num = dict(
             zip(
@@ -92,35 +92,35 @@ class IT3():
         # CONSONANTS
         self.hashc_om2i = {
             "k": "\xB3",
-            "K": "\xB4",
+            "kh": "\xB4",
             "g": "\xB5",
-            "G": "\xB6",
+            "gh": "\xB6",
             "f": "\xB7",
-            "c": "\xB8",
-            "C": "\xB9",
+            "ch": "\xB8",
+            "chh": "\xB9",
             "j": "\xBA",
-            "J": "\xBB",
+            "jh": "\xBB",
             "F": "\xBC",
-            "t": "\xBD",
-            "T": "\xBE",
-            "d": "\xBF",
-            "D": "\xC0",
+            #"t": "\xBD",
+            #"T": "\xBE",
+            #"d": "\xBF",
+            #"D": "\xC0",
             "N": "\xC1",
-            "w": "\xC2",
-            "W": "\xC3",
-            "x": "\xC4",
-            "X": "\xC5",
+            "t": "\xC2",
+            "th": "\xC3",
+            "d": "\xC4",
+            "dh": "\xC5",
             "n": "\xC6",
             "p": "\xC8",
-            "P": "\xC9",
+            "ph": "\xC9",
             "b": "\xCA",
-            "B": "\xCB",
+            "bh": "\xCB",
             "m": "\xCC",
             "y": "\xCD",
             "r": "\xCF",
             "l": "\xD1",
             "v": "\xD4",
-            "S": "\xD5",
+            "sh": "\xD5",
             "s": "\xD7",
             "R": "\xD6",
             "h": "\xD8",
@@ -137,60 +137,61 @@ class IT3():
         # VOWELS
         self.hashv_om2i = {
             "a": "\xA4",
-            "A": "\xA5",
+            "aa": "\xA5",
             "aA": "\xA5",
             "i": "\xA6",
             "ai": "\xA6",
-            "I": "\xA7",
+            "ii": "\xA7",
             "aI": "\xA7",
             "u": "\xA8",
             "au": "\xA8",
-            "U": "\xA9",
+            "uu": "\xA9",
             "aU": "\xA9",
-            "q": "\xAA",
+            "rx": "\xAA",
             "aq": "\xAA",
-            "eV": "\xAB",
-            "aeV": "\xAB",
-            "e": "\xAC",
+            "e": "\xAB",
+            "rx~": "\xAB",
+            # "e": "\xAC",
             "ae": "\xAC",
-            "E": "\xAD",
+            "ee": "\xAD",
             "aE": "\xAD",
             "EY": "\xAE",
             "aEY": "\xAE",
-            "oV": "\xAF",
+            "o": "\xAF",
             "aoV": "\xAF",
-            "o": "\xB0",
+            #"o": "\xB0",
             "ao": "\xB0",
-            "O": "\xB1",
+            "oo": "\xB1",
             "aO": "\xB1",
             "OY": "\xB2",
             "aOY": "\xB2",
         }
         # MATRA
         self.hashm_om2i = {
-            "A": "\xDA",
+            'a':"",
+            "aa": "\xDA",
             "aA": "\xDA",
             "i": "\xDB",
-            "ai": "\xDB",
-            "I": "\xDC",
+            "aI": "\xDB",
+            "ii": "\xDC",
             "aI": "\xDC",
             "u": "\xDD",
             "au": "\xDD",
-            "U": "\xDE",
+            "uu": "\xDE",
             "aU": "\xDE",
             "q": "\xDF",
             "aq": "\xDF",
-            "eV": "\xE0",
+            "e": "\xE0",
             "aeV": "\xE0",
-            "e": "\xE1",
+            # "e": "\xE1",
             "ae": "\xE1",
             "E": "\xE2",
             "aE": "\xE2",
             "EY": "\xE3",
             "aEY": "\xE3",
-            "oV": "\xE4",
+            "o": "\xE4",
             "aoV": "\xE4",
-            "o": "\xE5",
+            #"o": "\xE5",
             "ao": "\xE5",
             "O": "\xE6",
             "aO": "\xE6",
@@ -200,10 +201,10 @@ class IT3():
         # MODIFIERS
         self.hashmd_om2i = {
             "z": "\xA1",
-            "M": "\xA2",
-            "H": "\xA3",
+            "n:": "\xA2",
+            ":": "\xA3",
         }
-        self.digits_w2i = {
+        self.digits_om2i = {
             "0": "\xF1",
             "1": "\xF2",
             "2": "\xF3",
@@ -909,32 +910,32 @@ class IT3():
         }
         # WX to IT3 to be done in the following line of code
         # compile regexes
-        const = 'kKgGfcCjJFtTdDNwWxXnpPbBmyrlvSsRh'
+        const = 'kgfcjtdpbmyrlvsh'
         self.ceVmd = re.compile("([%s])eV([MHz])" % const)
         self.ceV = re.compile("([%s])eV" % const)
-        self.cZeV = re.compile("([%s])ZeV" % const)
-        self.cZeVmd = re.compile("([%s])ZeV([MHz])" % const)
+        #self.cZeV = re.compile("([%s])ZeV" % const)
+        #self.cZeVmd = re.compile("([%s])ZeV([MHz])" % const)
         self.cEYmd = re.compile("([%s])EY([MHz])" % const)
         self.cEY = re.compile("([%s])EY" % const)
         self.cOYmd = re.compile("([%s])OY([MHz])" % const)
         self.coVmd = re.compile("([%s])oV([MHz])" % const)
         self.coV = re.compile("([%s])oV" % const)
-        self.cZoV = re.compile("([%s])ZoV" % const)
-        self.cZoVmd = re.compile("([%s])ZoV([MHz])" % const)
+        #self.cZoV = re.compile("([%s])ZoV" % const)
+        #self.cZoVmd = re.compile("([%s])ZoV([MHz])" % const)
         self.cOY = re.compile("([%s])OY" % const)
-        self.cZOY = re.compile("([%s])ZOY" % const)
-        self.cvmd = re.compile("([%s])([AiIuUeEoO])([MHz])" % const)
-        self.cZvmd = re.compile("([%s])Z([AiIuUeEoO])([MHz])" % const)
-        self.cv = re.compile("([%s])([AiIuUeEoO])" % const)
-        self.cZv = re.compile("([%s])Z([AiIuUeEoO])" % const)
-        self.camd = re.compile("([%s])a([MHz])" % const)
-        self.cZamd = re.compile("([%s])Za([MHz])" % const)
-        self.cZmd = re.compile("([%s])Z([MHz])" % const)
-        self.ca = re.compile("([%s])a" % const)
-        self.cZa = re.compile("([%s])Za" % const)
-        self.cYZa = re.compile("([%s])YZa" % const)
-        self.c = re.compile("([%s])" % const)
-        self.cZ = re.compile("([%s])Z" % const)
+        #self.cZOY = re.compile("([%s])ZOY" % const)
+        self.cvmd = re.compile("([%s])([aeiou]{1,2})(n?:)" % const)
+        #self.cZvmd = re.compile("([%s])Z([AiIuUeEoO])([MHz])" % const)
+        self.cv = re.compile("([%s])([aeiou]{1,2})" % const)
+        #self.cZv = re.compile("([%s])Z([AiIuUeEoO])" % const)
+        self.camd = re.compile("([%s])a(n?:)" % const)
+        #self.cZamd = re.compile("([%s])Za([MHz])" % const)
+        #self.cZmd = re.compile("([%s])Z([MHz])" % const)
+        self.ca = re.compile("([%s]h{0,2})a" % const)
+        #self.cZa = re.compile("([%s])Za" % const)
+        #self.cYZa = re.compile("([%s])YZa" % const)
+        self.c = re.compile("([%s])h{0,2}" % const)
+        #self.cZ = re.compile("([%s])Z" % const)
         self.aqmd = re.compile("aq([MHz])")
         self.cq = re.compile("([%s])q" % const)
         self.cqmd = re.compile("([%s])q([MHz])" % const)
@@ -2437,7 +2438,7 @@ class IT3():
     def map_a(self, my_string):
         if 'a' not in my_string:
             return my_string
-        my_string = re.sub('\BaA', self.hashv_om2i["aA"], my_string)
+        my_string = re.sub('\Baa', self.hashv_om2i["aa"], my_string)
         my_string = re.sub('\Bai', self.hashv_om2i["ai"], my_string)
         my_string = re.sub('\BaI', self.hashv_om2i["aI"], my_string)
         my_string = re.sub('\Bau', self.hashv_om2i["au"], my_string)
@@ -2506,14 +2507,14 @@ class IT3():
         my_string = self.map_a(my_string)
 
         my_string = re.sub(
-            '([aAiIuUeEoO])([MHz])',
+            '([aeiou]{1,2})(n?:)',
             lambda m: self.hashv_om2i[
                 m.group(1)] +
             self.hashmd_om2i[
                 m.group(2)],
             my_string)
         my_string = re.sub(
-            '([aAiIuUeEoO])',
+            '([aeiou]{1,2})',
             lambda m: self.hashv_om2i[
                 m.group(1)],
             my_string)
@@ -2521,7 +2522,7 @@ class IT3():
         # For PUNJABI ADDAK
         my_string = my_string.replace("Y", "\xFB")
         # Replace Roman Digits with ISCII
-        # my_string = self.dig.sub(lambda m: self.digits_w2i[m.group(1)],
+        # my_string = self.dig.sub(lambda m: self.digits_om2i[m.group(1)],
         #                         my_string)
         return my_string
 
