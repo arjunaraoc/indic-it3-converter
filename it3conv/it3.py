@@ -95,17 +95,17 @@ class IT3():
             "kh": "\xB4",
             "g": "\xB5",
             "gh": "\xB6",
-            "ng~": "\xB7",
+            "ng-": "\xB7",
             "ch": "\xB8",
             "chh": "\xB9",
             "j": "\xBA",
             "jh": "\xBB",
-            "nj~": "\xBC",
-            "t:": "\xBD",
-            "t:h": "\xBE",
-            "d:": "\xBF",
-            "d:h": "\xC0",
-            "nd~": "\xC1",
+            "nj-": "\xBC",
+            "t'": "\xBD",
+            "t'h": "\xBE",
+            "d'": "\xBF",
+            "d'h": "\xC0",
+            "nd-": "\xC1",
             "t": "\xC2",
             "th": "\xC3",
             "d": "\xC4",
@@ -130,9 +130,9 @@ class IT3():
             "Y": "\xFB",
             "lY": "\xD2",
             # Added for tamil/telugu
-            "r:": "\xD0",
+            "r'": "\xD0",
             "nY": "\xC7",
-            "l:": "\xD2",
+            "l'": "\xD2",
             "lYY": "\xD3",
         }
         # VOWELS
@@ -151,7 +151,7 @@ class IT3():
             "rx": "\xAA",
             "aq": "\xAA",
             "e": "\xAB",
-            "rx~": "\xAB",
+            "rx-": "\xAB",
             "ei": "\xAC",
             "ae": "\xAC",
             "ee": "\xAD",
@@ -183,7 +183,7 @@ class IT3():
             "uu": "\xDE",
             "aU": "\xDE",
             "rx": "\xDF",
-            "rx~": "\xDF",
+            "rx-": "\xDF",
             "e": "\xE0",
             "aeV": "\xE0",
             "ei": "\xE1",
@@ -205,7 +205,7 @@ class IT3():
         # MODIFIERS
         self.hashmd_om2i = {
             "z": "\xA1",
-            "n:": "\xA2",
+            "n'": "\xA2",
             ":": "\xA3",
         }
         self.digits_om2i = {
@@ -918,11 +918,11 @@ class IT3():
         # special consonants which take two or more letters
         constsp ='t:|d:|ng~|nj~|nd~|l:|r:|sh'
         # new unified defintion where regex can follow match order
-        nconst= 'shh|chh|ng~|nj~|nd~|t:h|d:h|kh|gh|ch|jh|th|dh|ph|bh|sh|t:|l:|r:|d:|k|g|j|t|d|n|p|b|m|y|r|l|v|s|h'
+        nconst= 'shh|chh|ng-|nj-|nd-|t\'h|d\'h|kh|gh|ch|jh|th|dh|ph|bh|sh|t\'|l\'|r\'|d\'|k|g|j|t|d|n|p|b|m|y|r|l|v|s|h'
         nvovel='rx-|rx|ei|ai|au|aa|ii|uu|ee|oo|a|i|u|e|o'
-        #nmd='n:|a:'
-        nmd='n:'
-        nq='rx|rx~'
+        nmd='n\'|:'
+        #nmd='n:'
+        nq='rx|rx-'
 
 
         self.ncvmd= re.compile("(%s)(%s)(%s)" % (nconst,nvovel,nmd))
@@ -2611,8 +2611,8 @@ class IT3():
     def map_a(self, my_string):
         if re.search("(a|e)", my_string) is None:
             return my_string
-        my_string = re.sub('\baan:', self.hashv_om2i["aa"] + self.hashmd_om2i["n:"], my_string)
-        my_string = re.sub('\ban:', self.hashv_om2i["a"]+self.hashmd_om2i["n:"], my_string)
+        my_string = re.sub('\baan:', self.hashv_om2i["aa"] + self.hashmd_om2i["n'"], my_string)
+        my_string = re.sub('\ban:', self.hashv_om2i["a"]+self.hashmd_om2i["n'"], my_string)
         my_string = re.sub('\ba:', self.hashv_om2i["a"]+self.hashmd_om2i[":"], my_string)
         my_string = re.sub('\baa', self.hashv_om2i["aa"], my_string)
         my_string = re.sub('\bai', self.hashv_om2i["ai"], my_string)
