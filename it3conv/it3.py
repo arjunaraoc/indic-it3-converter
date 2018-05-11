@@ -2476,7 +2476,7 @@ class IT3():
 
     # to handle specially mapped vowels at the begining ei ai au a and its modifiers
     def map_eiaiau(self,my_string):
-        if re.match("(a|ei|ai|au)", my_string) is None:
+        if re.match("(ei|ai|au)", my_string) is None:
             return my_string
         my_string = re.sub(
             "(ei|ai|au)(n?:)",
@@ -2548,15 +2548,18 @@ class IT3():
 
     # map for vowels at the begining
     def map_a(self, my_string):
-        if re.match("(a|e)", my_string) is None:
+        if re.search("(a|e)", my_string) is None:
             return my_string
+        my_string = re.sub('\baan:', self.hashv_om2i["aa"] + self.hashmd_om2i["n:"], my_string)
+        my_string = re.sub('\ban:', self.hashv_om2i["a"]+self.hashmd_om2i["n:"], my_string)
+        my_string = re.sub('\ba:', self.hashv_om2i["a"]+self.hashmd_om2i[":"], my_string)
+        my_string = re.sub('\baa', self.hashv_om2i["aa"], my_string)
+        my_string = re.sub('\bai', self.hashv_om2i["ai"], my_string)
+        my_string = re.sub('\bei', self.hashv_om2i["ei"], my_string)
+        my_string = re.sub('\bau', self.hashv_om2i["au"], my_string)
 
-        my_string = re.sub('^aa', self.hashv_om2i["aa"], my_string)
-        my_string = re.sub('^ai', self.hashv_om2i["ai"], my_string)
-        my_string = re.sub('^ei', self.hashv_om2i["ei"], my_string)
-        my_string = re.sub('^au', self.hashv_om2i["au"], my_string)
-        my_string = re.sub('^an:', self.hashv_om2i["a"]+self.hashmd_om2i["n:"], my_string)
-        my_string = re.sub('^a:', self.hashv_om2i["a"]+self.hashmd_om2i[":"], my_string)
+
+
         # my_string = re.sub('\BaI', self.hashv_om2i["aI"], my_string)
         # my_string = re.sub('\BaU', self.hashv_om2i["aU"], my_string)
         #my_string = re.sub('\Bae', self.hashv_om2i["ae"], my_string)
@@ -2571,9 +2574,7 @@ class IT3():
             my_string = my_string.replace('EY', self.hashv_om2i["E"] + 'Y')
         my_string = self.map_a(my_string)
         # to handle vowels with modifiers to avoid conflict with consonants starting with n
-        my_string = self.map_eiaiau(my_string)
-        # Added for special vowel mappings of ei ai,au after consonants
-        my_string = self.map_e3(my_string)
+
         # for telugu rx retained the map function name for ra processing
         my_string = self.map_q(my_string)
 
@@ -2629,6 +2630,12 @@ class IT3():
             self.hashmd_om2i[
                 m.group(3)],
             my_string)
+        my_string = self.cv.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashm_om2i[
+                m.group(2)],
+            my_string)
 
         my_string = self.camd.sub(
             lambda m: self.hashc_om2i[
@@ -2639,15 +2646,19 @@ class IT3():
         my_string = self.ca.sub(
             lambda m: self.hashc_om2i[
                 m.group(1)], my_string)
-        my_string = self.cv.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)],
-            my_string)
+
 
 
         my_string = my_string.replace('rx', self.hashv_om2i["rx"])
+        #check if vowel n: is still present prefixed by vowel, in which case process them first
+        my_string = re.sub(
+            '([aeiou]{1,2})(n?:)',
+            lambda m: self.hashv_om2i[
+                          m.group(1)] +
+                      self.hashmd_om2i[
+                          m.group(2)],
+            my_string)
+        # string does not have consonants similar to n:
         my_string = self.c.sub(
             lambda m: self.hashc_om2i[
                 m.group(1)] +
@@ -2666,7 +2677,9 @@ class IT3():
         # my_string = self.map_oV2(my_string)
         # Added for the case of U0949
         # my_string = self.map_OY2(my_string)
-
+        my_string = self.map_eiaiau(my_string)
+        # Added for special vowel mappings of ei ai,au after consonants
+        my_string = self.map_e3(my_string)
 
 
         my_string = re.sub(
