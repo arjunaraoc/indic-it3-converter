@@ -916,19 +916,20 @@ class IT3():
         # compile regexes
         const = 'kgfcjtdpbmylvshrn'
         # special consonants which take two or more letters
-        constsp ='t:|d:|ng~|nj~|nd~|l:|r:'
+        constsp ='t:|d:|ng~|nj~|nd~|l:|r:|sh'
         #self.ceVmd = re.compile("([%s])eV([MHz])" % const)
         self.cspe3md = re.compile("(%s)(ei|ai|au)(n?:)" % constsp)
+        self.cspe3 = re.compile("(%s)(ei|ai|au)" % constsp)
         self.cspvmd = re.compile("(%s)([aeiou]{1,2})(n?:)" % constsp)
-        self.cspa=re.compile("((%s)h{0,2})a" % constsp)
-        self.csp= re.compile("(%s)h{0,2}" % constsp)
+        self.cspa=re.compile("((%s)h?)a" % constsp)
+        self.csp= re.compile("(%s)h?" % constsp)
         self.cspamd = re.compile("(%s)a(n?:)" % constsp)
-        self.cspv = re.compile("(%s[aeiou]{1,2})" % constsp)
+        self.cspv = re.compile("(%s)([aeiou]{1,2})" % constsp)
 
         self.ce3md = re.compile("([%s])(ei|ai|au)(n?:)" % const)
         self.ce3 = re.compile("([%s])(ei|ai|au)" % const)
-        self.ca = re.compile("([%s]h{0,2})a" % const)
-        self.c = re.compile("([%s])h{0,2}" % const)
+        self.ca = re.compile("([%s]h?)a" % const)
+        self.c = re.compile("([%s])h?" % const)
         self.cvmd = re.compile("([%s])([aeiou]{1,2})(n?:)" % const)
         self.cv = re.compile("([%s])([aeiou]{1,2})" % const)
         self.camd = re.compile("([%s])a(n?:)" % const)
@@ -2473,13 +2474,13 @@ class IT3():
         my_string = my_string.replace('eV', self.hashv_om2i["eV"])
         return my_string
 
-    # to handle specially mapped vowels at the begining ei ai au
+    # to handle specially mapped vowels at the begining ei ai au a and its modifiers
     def map_eiaiau(self,my_string):
-        if re.match("(ei|ai|au)", my_string) is None:
+        if re.match("(a|ei|ai|au)", my_string) is None:
             return my_string
         my_string = re.sub(
             "(ei|ai|au)(n?:)",
-            lambda m: self.hashv_om2i[m_group(1)]+
+            lambda m: self.hashv_om2i[m.group(1)]+
                         self.hashmd_om2i[m.group(2)],
             my_string)
         my_string = re.sub(
@@ -2544,16 +2545,21 @@ class IT3():
             my_string)
         my_string = my_string.replace('OY', self.hashv_om2i["OY"])
         return my_string
+
     # map for vowels at the begining
     def map_a(self, my_string):
-        if 'a' not in my_string:
+        if re.match("(a|e)", my_string) is None:
             return my_string
-        my_string = re.sub('\Baa', self.hashv_om2i["aa"], my_string)
-        my_string = re.sub('\Bai', self.hashv_om2i["ai"], my_string)
+
+        my_string = re.sub('^aa', self.hashv_om2i["aa"], my_string)
+        my_string = re.sub('^ai', self.hashv_om2i["ai"], my_string)
+        my_string = re.sub('^ei', self.hashv_om2i["ei"], my_string)
+        my_string = re.sub('^au', self.hashv_om2i["au"], my_string)
+        my_string = re.sub('^an:', self.hashv_om2i["a"]+self.hashmd_om2i["n:"], my_string)
+        my_string = re.sub('^a:', self.hashv_om2i["a"]+self.hashmd_om2i[":"], my_string)
         # my_string = re.sub('\BaI', self.hashv_om2i["aI"], my_string)
-        my_string = re.sub('\Bau', self.hashv_om2i["au"], my_string)
         # my_string = re.sub('\BaU', self.hashv_om2i["aU"], my_string)
-        my_string = re.sub('\Bae', self.hashv_om2i["ae"], my_string)
+        #my_string = re.sub('\Bae', self.hashv_om2i["ae"], my_string)
         # my_string = re.sub('\BaE', self.hashv_om2i["aE"], my_string)
         #my_string = re.sub('\BaO', self.hashv_om2i["aO"], my_string)
 
@@ -2563,13 +2569,15 @@ class IT3():
         """Convert it3 to ISCII"""
         if self.lang == 'pan':
             my_string = my_string.replace('EY', self.hashv_om2i["E"] + 'Y')
-
+        my_string = self.map_a(my_string)
+        # to handle vowels with modifiers to avoid conflict with consonants starting with n
+        my_string = self.map_eiaiau(my_string)
         # Added for special vowel mappings of ei ai,au after consonants
         my_string = self.map_e3(my_string)
         # for telugu rx retained the map function name for ra processing
         my_string = self.map_q(my_string)
 
-        my_string = self.map_a(my_string)
+
         # my_string = self.map_ZeV(my_string)
         # my_string = self.map_eV(my_string)
         # my_string = self.map_EY(my_string)
@@ -2597,15 +2605,17 @@ class IT3():
             self.hashmd_om2i[
                 m.group(2)],
             my_string)
-        my_string = self.cspa.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)], my_string)
         my_string = self.cspv.sub(
             lambda m: self.hashc_om2i[
                 m.group(1)] +
             self.hashm_om2i[
                 m.group(2)],
             my_string)
+        my_string = self.cspa.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)], my_string)
+
+
         my_string = self.csp.sub(
             lambda m: self.hashc_om2i[
                 m.group(1)] +
@@ -2636,8 +2646,14 @@ class IT3():
                 m.group(2)],
             my_string)
 
-        # my_string = my_string.replace('aq', self.hashv_om2i["aq"])
+
         my_string = my_string.replace('rx', self.hashv_om2i["rx"])
+        my_string = self.c.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashc_om2i["_"],
+            my_string)
+        # my_string = my_string.replace('aq', self.hashv_om2i["aq"])
 
 
 
@@ -2651,7 +2667,7 @@ class IT3():
         # Added for the case of U0949
         # my_string = self.map_OY2(my_string)
 
-        my_string = self.map_eiaiau(my_string)
+
 
         my_string = re.sub(
             '([aeiou]{1,2})(n?:)',
@@ -2666,11 +2682,7 @@ class IT3():
                 m.group(1)],
             my_string)
         my_string = my_string.replace('.', self.hashc_om2i["."])
-        my_string = self.c.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashc_om2i["_"],
-            my_string)
+
         # For PUNJABI ADDAK
         my_string = my_string.replace("Y", "\xFB")
         # Replace Roman Digits with ISCII
