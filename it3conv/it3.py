@@ -917,6 +917,31 @@ class IT3():
         const = 'kgfcjtdpbmylvshrn'
         # special consonants which take two or more letters
         constsp ='t:|d:|ng~|nj~|nd~|l:|r:|sh'
+        # new unified defintion where regex can follow match order
+        nconst= 'shh|chh|ng~|nj~|nd~|t:h|d:h|kh|gh|ch|jh|th|dh|ph|bh|sh|t:|l:|r:|d:|k|g|j|t|d|n|p|b|m|y|r|l|v|s|h'
+        nvovel='rx-|rx|ei|ai|au|aa|ii|uu|ee|oo|a|i|u|e|o'
+        #nmd='n:|a:'
+        nmd='n:'
+        nq='rx|rx~'
+
+
+        self.ncvmd= re.compile("(%s)(%s)(%s)" % (nconst,nvovel,nmd))
+        self.ncamd=re.compile("(%s)a(%s)" % (nconst,nmd))
+        self.ncmd= re.compile("(%s)(%s)" % (nconst,nmd))
+        self.ncv= re.compile("(%s)(%s)" % (nconst,nvovel))
+        self.nca= re.compile("(%s)a" % nconst)
+        self.nc=re.compile("(%s)" % nconst)
+        self.nvmd= re.compile("(%s)(%s)" % (nvovel,nmd))
+        self.nv=re.compile("(%s)" % nvovel)
+        self.nmd=re.compile("(%s)" % nmd)
+        self.ncqmd=re.compile("(%s)(%s)(%s)" % (nconst,nq,nmd))
+        self.nqmd=re.compile("(%s)(%s)" %(nq,nmd))
+        self.ncq=re.compile("(%s)(%s)" % (nconst,nq))
+        self.nq=re.compile("(%s)" % nq)
+
+
+
+
         #self.ceVmd = re.compile("([%s])eV([MHz])" % const)
         self.cspe3md = re.compile("(%s)(ei|ai|au)(n?:)" % constsp)
         self.cspe3 = re.compile("(%s)(ei|ai|au)" % constsp)
@@ -974,8 +999,10 @@ class IT3():
         self.cqmd = re.compile("([%s])rx(n?:)" % const)
         self.cq = re.compile("([%s])rx" % const)
         self.qmd = re.compile("rx(n?:)")
+
         self.dig = re.compile("([0-9])")
         self.i2u = re.compile('([\xA1-\xFB])')
+
 
     def initialize_utf2it3_hash(self):
         self.hashc_i2w = {
@@ -2098,6 +2125,40 @@ class IT3():
         '''
         return my_string
 
+    def map_rx(self, my_string):
+        if re.search("rx", my_string) is None:
+            return my_string
+        my_string = self.ncqmd.sub(
+            lambda m: self.hashc_om2i[
+                          m.group(1)] +
+                      self.hashm_om2i["rx"] +
+                      self.hashmd_om2i[
+                          m.group(2)],
+            my_string)
+        my_string = self.cq.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashm_om2i["rx"],
+            my_string)
+        my_string = self.nqmd.sub(
+            lambda m: self.hashv_om2i[m.group(1)] +
+                      self.hashmd_om2i[
+                "rx"],
+            my_string)
+
+        my_string = self.nq.sub(
+            lambda m: self.hashv_om2i[
+                m.group(1)] ,
+            my_string)
+        '''
+        my_string = self.aqmd.sub(
+            lambda m: self.hashv_om2i["aq"] +
+                      self.hashmd_om2i[
+                m.group(1)],
+            my_string)
+        '''
+        return my_string
+
     def map_lYY(self, my_string):
         if 'lYY' not in my_string:
             return my_string
@@ -2566,6 +2627,86 @@ class IT3():
         # my_string = re.sub('\BaE', self.hashv_om2i["aE"], my_string)
         #my_string = re.sub('\BaO', self.hashv_om2i["aO"], my_string)
 
+        return my_string
+    def nit32iscii(self,my_string):
+
+        '''
+        self.ncvmd= re.compile("(%s)(%s)(%s)" % nconst,nvovel,nmd)
+        self.ncamd=re.compile("(%s)a(%s)" % nconst,nmd))
+        self.ncmd= re.compile("(%s)(%s)" % nconst,nmd)
+        self.ncv= re.compile("(%s)(%s)" % nconst,nvovel)
+        self.nca= re.compile("(%s)a" % nconst)
+        self.nc=re.compile("(%s)" % nconst)
+        self.nvmd= re.compile("(%s)(%s)" % nvovel,nmd)
+        self.nmd=re.compile("(%s)" % nmd)
+        self.nv=re.compile("(%s)" % nvovel)
+
+        '''
+        my_string = self.map_a(my_string)
+        # to handle vowels with modifiers to avoid conflict with consonants starting with n
+
+        # for telugu rx retained the map function name for ra processing
+        my_string = self.map_rx(my_string)
+        my_string = self.ncvmd.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashm_om2i[
+                m.group(2)] +
+            self.hashmd_om2i[
+                m.group(3)],
+            my_string)
+        my_string = self.ncamd.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashmd_om2i[
+                m.group(2)],
+            my_string)
+        my_string = self.ncmd.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashmd_om2i[
+                m.group(2)],
+            my_string)
+
+        my_string = self.ncv.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)] +
+            self.hashm_om2i[
+                m.group(2)],
+            my_string)
+
+
+        my_string = self.nca.sub(
+            lambda m: self.hashc_om2i[
+                m.group(1)], my_string)
+
+        #check if vowel n: is still present prefixed by vowel, in which case process them first
+        my_string = self.nvmd.sub(
+            lambda m: self.hashv_om2i[
+                          m.group(1)] +
+                      self.hashmd_om2i[m.group(2)],
+            my_string)
+        # string does not have consonants similar to n:
+        my_string = self.nc.sub(
+            lambda m: self.hashc_om2i[
+                          m.group(1)] +
+                      self.hashc_om2i["_"],
+            my_string)
+        my_string = self.nvmd.sub(
+            lambda m: self.hashv_om2i[
+                          m.group(1)] +
+                      self.hashmd_om2i[m.group(2)],
+            my_string)
+        my_string = self.nmd.sub(
+            lambda m: self.hashmd_om2i[
+                          m.group(1)] ,
+            my_string)
+        my_string = self.nv.sub(
+            lambda m: self.hashv_om2i[
+                          m.group(1)] ,
+            my_string)
+
+        my_string = my_string.replace('.', self.hashc_om2i["."])
         return my_string
 
     def it32iscii(self, my_string):
@@ -3140,7 +3281,7 @@ class IT3():
                 if self.lang == 'urd':
                     unicode_t = self.it32utf_urd(it3)
                 else:
-                    iscii = self.it32iscii(it3)
+                    iscii = self.nit32iscii(it3)
                     # Convert ISCII to Unicode
                     unicode_t = self.iscii2unicode(iscii)
                 # Unmask iscii characters
