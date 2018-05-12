@@ -2135,7 +2135,7 @@ class IT3():
                       self.hashmd_om2i[
                           m.group(2)],
             my_string)
-        my_string = self.cq.sub(
+        my_string = self.ncq.sub(
             lambda m: self.hashc_om2i[
                 m.group(1)] +
             self.hashm_om2i["rx"],
@@ -3267,6 +3267,10 @@ class IT3():
     def it32utf(self, it3):
         """Convert it3-Roman to UTF"""
         unicode_ = ''
+        #it3 uses only lower case letters
+        it3=it3.lower()
+        #replace ~ if found with dash
+        it3=it3.replace("~","-")
         it3_list = self.unmask_rom.split(it3)
         for it3 in it3_list:
             if not it3:

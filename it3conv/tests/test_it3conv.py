@@ -62,11 +62,13 @@ class TestIT3(TestCase):
         lang="tel"
         telmap={
 
+                'A':'అ',
+
 
                 'a':'అ', 'aa':'ఆ', 'i':'ఇ', 'ii':'ఈ', 'u':'ఉ', 'uu':'ఊ',
                    'e':'ఎ', 'o':'ఒ',
                 'ei': 'ఏ', 'ai': 'ఐ', 'oo': 'ఓ', 'au': 'ఔ',
-                'rx': 'ఋ',
+                'rx': 'ఋ', 'rx-': 'ఋూ',
             #'lx': 'ఌ',
                      'ka':'క',
                      'kha':'ఖ', 'ga':'గ', 'gha':'ఘ',
@@ -90,11 +92,15 @@ class TestIT3(TestCase):
                     'ke': 'కె','kei':'కే','kai':'కై', 'ko':'కొ', 'koo':'కో', 'kau':'కౌ',
                     'kan\'':'కం',   'ka:':'కః',
                     #'krx-':'కౄ',
-            'kh': 'ఖ్', 'khaa': 'ఖా', 'khi': 'ఖి', 'khii': 'ఖీ', 'khu': 'ఖు', 'khuu': 'ఖూ', #'khrx': 'ఖృ',
+            'kh': 'ఖ్', 'khaa': 'ఖా', 'khi': 'ఖి', 'khii': 'ఖీ', 'khu': 'ఖు', 'khuu': 'ఖూ','khrx': 'ఖృ',
             'khe': 'ఖె', 'khei': 'ఖే', 'khai': 'ఖై', 'kho': 'ఖొ', 'khoo': 'ఖో', 'khau': 'ఖౌ',
             'khan\'': 'ఖం',   'kha:':'ఖః',
              #'khrx-':'ఖౄ',
-                    
+
+            't\'h': 'ఠ్', 't\'haa': 'ఠా', 't\'hi': 'ఠి', 't\'hii': 'ఠీ', 't\'hu': 'ఠు', 't\'huu': 'ఠూ', 't\'hrx': 'ఠృ',
+            't\'he': 'ఠె', 't\'hei': 'ఠే', 't\'hai': 'ఠై', 't\'ho': 'ఠొ', 't\'hoo': 'ఠో', 't\'hau': 'ఠౌ',
+            't\'han\'': 'ఠం', 't\'ha:': 'ఠః',
+            # 't\'hrx-':'ఠౄ',
 
                     'kaan\'':'కాం','kin\'':'కిం',
             
@@ -102,9 +108,15 @@ class TestIT3(TestCase):
                     'kaayaka':'కాయక',
                     'nan\'danan\'':'నందనం',
                     'kautukan\'':'కౌతుకం',
-                    'tirumala tirupati aan\'dhrulaku pavitra pund-ya kshheitramu':'తిరుమల తిరుపతి ఆంధ్రులకు పవిత్ర పుణ్య క్షేత్రము',
+            'Harinarayan Apte':    'హరినరయన్ అప్తె',
+            'Karandikar M.E.':'కరన్దికర్ మ్.ఎ.',
+                'tirumala tirupati aan\'dhrulaku pavitra pund-ya kshheitramu':'తిరుమల తిరుపతి ఆంధ్రులకు పవిత్ర పుణ్య క్షేత్రము',
                      'shaivaaya:':'శైవాయః',
-
+            'vidyuchchhakti': 'విద్యుచ్ఛక్తి',
+            'patrashreishht\'amu': 'పత్రశ్రేష్టము',
+            'dussvapnamu': 'దుస్స్వప్నము',
+            'shleishhmajyooshht\'amu':'శ్లేష్మజ్యోష్టము',
+            'and-vastramu': 'అణ్వస్త్రము',
                      '.':'.',
                      ',':',', '?':'?', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'6', '7':'7',
                      '8':'8', '9':'9', ';':';', '-':'-', '\\':'\\', '<':'<', '>':'>', '/':'/', '[':'[',
