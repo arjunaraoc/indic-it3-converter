@@ -76,7 +76,8 @@ Examples
 2. utf to it3 (plain text):
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Not implemented
+::
+    Not implemented
 
 3. it3 to utf:
 ^^^^^^^^^^^^^
