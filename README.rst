@@ -89,7 +89,7 @@ Not implemented
     >>> tel_it3=u'''tirumala tirupati aan\'dhrulaku pavitra pund-ya kshheitramu'''
     >>> tel_utf_ = it3c.convert(tel_it3)
     >>> print(tel_utf_)
-    తిరుమల తిరుపతి ఆంధ్రులకు పవిత్ర పుణ్య క్షేత్రము
+    ... తిరుమల తిరుపతి ఆంధ్రులకు పవిత్ర పుణ్య క్షేత్రము
     >>>
 
 
