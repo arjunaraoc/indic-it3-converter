@@ -13,7 +13,7 @@ indic-it3-converter
     :target: https://circleci.com/gh/arjunaraoc/indic-it3-converter
 
 
-Python library for UTF to WX conversion and vice-versa for Indian languages.
+Python library for IT3 to UTF conversion  for Indian languages.
 
 Installation
 ------------
@@ -90,7 +90,8 @@ Not implemented
     >>> tel_utf_ = it3c.convert(tel_it3)
     >>> print(tel_utf_)
     తిరుమల తిరుపతి ఆంధ్రులకు పవిత్ర పుణ్య క్షేత్రము
-    """
+    >>>
+
 
 
 
