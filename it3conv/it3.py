@@ -30,6 +30,7 @@ class IT3():
     norm : bool, default: False
         If True returns normalized text without it3-Conversion
     """
+
     def __init__(self, lang='tel', order='utf2it3', rmask=True, norm=False):
         self.norm = norm
         self.order = order
@@ -148,41 +149,41 @@ class IT3():
             "uu": "\xA9",
             "aU": "\xA9",
             "rx": "\xAA",
-            #"aq": "\xAA",
+            # "aq": "\xAA",
             "e": "\xAB",
             # "rx-": "\xAB",
             "ei": "\xAC",
             "ae": "\xAC",
             "ee": "\xAD",
-            #"aE": "\xAD",
-            "ai":"\xAD",
+            # "aE": "\xAD",
+            "ai": "\xAD",
             "EY": "\xAE",
             "aEY": "\xAE",
             "o": "\xAF",
             "aoV": "\xAF",
-            #"o": "\xB0",
+            # "o": "\xB0",
             "ao": "\xB0",
             "oo": "\xB0",
             "aO": "\xB1",
             "OY": "\xB2",
             # "aOY": "\xB2",
-            "au":"\xB1",
+            "au": "\xB1",
         }
         # MATRA
         self.hashm_om2i = {
-            'a':"",
+            'a': "",
             "aa": "\xDA",
             "aA": "\xDA",
             "i": "\xDB",
-            #"aI": "\xDB",
+            # "aI": "\xDB",
             "ii": "\xDC",
-            #"aI": "\xDC",
+            # "aI": "\xDC",
             "u": "\xDD",
             # "au": "\xDD",
             "uu": "\xDE",
             "aU": "\xDE",
             "rx": "\xDF",
-            #"rx-": "\xDF",
+            # "rx-": "\xDF",
             "e": "\xE0",
             "aeV": "\xE0",
             "ei": "\xE1",
@@ -917,37 +918,33 @@ class IT3():
         # compile regexes
         const = 'kgfcjtdpbmylvshrn'
         # special consonants which take two or more letters
-        constsp ='t:|d:|ng~|nj~|nd~|l:|r:|sh'
+        constsp = 't:|d:|ng~|nj~|nd~|l:|r:|sh'
         # new unified defintion where regex can follow match order
-        nconst= 'shh|chh|ng-|nj-|nd-|t\'h|d\'h|kh|gh|ch|jh|th|dh|ph|bh|sh|t\'|l\'|r\'|d\'|k|g|j|t|d|n|p|b|m|y|r|l|v|s|h'
-        nvovel='rx-|rx|ei|ai|au|aa|ii|uu|oo|a|i|u|e|o'
-        nmd='n\'|:'
+        nconst = 'shh|chh|ng-|nj-|nd-|t\'h|d\'h|kh|gh|ch|jh|th|dh|ph|bh|sh|t\'|l\'|r\'|d\'|k|g|j|t|d|n|p|b|m|y|r|l|v|s|h'
+        nvovel = 'rx-|rx|ei|ai|au|aa|ii|uu|oo|a|i|u|e|o'
+        nmd = 'n\'|:'
         nq = 'rx'
 
+        self.ncvmd = re.compile("(%s)(%s)(%s)" % (nconst, nvovel, nmd))
+        self.ncamd = re.compile("(%s)a(%s)" % (nconst, nmd))
+        self.ncmd = re.compile("(%s)(%s)" % (nconst, nmd))
+        self.ncv = re.compile("(%s)(%s)" % (nconst, nvovel))
+        self.nca = re.compile("(%s)a" % nconst)
+        self.nc = re.compile("(%s)" % nconst)
+        self.nvmd = re.compile("(%s)(%s)" % (nvovel, nmd))
+        self.nv = re.compile("(%s)" % nvovel)
+        self.nmd = re.compile("(%s)" % nmd)
+        self.ncqmd = re.compile("(%s)(%s)(%s)" % (nconst, nq, nmd))
+        self.nqmd = re.compile("(%s)(%s)" % (nq, nmd))
+        self.ncq = re.compile("(%s)(%s)" % (nconst, nq))
+        self.nq = re.compile("(%s)" % nq)
 
-        self.ncvmd= re.compile("(%s)(%s)(%s)" % (nconst,nvovel,nmd))
-        self.ncamd=re.compile("(%s)a(%s)" % (nconst,nmd))
-        self.ncmd= re.compile("(%s)(%s)" % (nconst,nmd))
-        self.ncv= re.compile("(%s)(%s)" % (nconst,nvovel))
-        self.nca= re.compile("(%s)a" % nconst)
-        self.nc=re.compile("(%s)" % nconst)
-        self.nvmd= re.compile("(%s)(%s)" % (nvovel,nmd))
-        self.nv=re.compile("(%s)" % nvovel)
-        self.nmd=re.compile("(%s)" % nmd)
-        self.ncqmd=re.compile("(%s)(%s)(%s)" % (nconst,nq,nmd))
-        self.nqmd=re.compile("(%s)(%s)" %(nq,nmd))
-        self.ncq=re.compile("(%s)(%s)" % (nconst,nq))
-        self.nq=re.compile("(%s)" % nq)
-
-
-
-
-        #self.ceVmd = re.compile("([%s])eV([MHz])" % const)
+        # self.ceVmd = re.compile("([%s])eV([MHz])" % const)
         self.cspe3md = re.compile("(%s)(ei|ai|au)(n?:)" % constsp)
         self.cspe3 = re.compile("(%s)(ei|ai|au)" % constsp)
         self.cspvmd = re.compile("(%s)([aeiou]{1,2})(n?:)" % constsp)
-        self.cspa=re.compile("((%s)h?)a" % constsp)
-        self.csp= re.compile("(%s)h?" % constsp)
+        self.cspa = re.compile("((%s)h?)a" % constsp)
+        self.csp = re.compile("(%s)h?" % constsp)
         self.cspamd = re.compile("(%s)a(n?:)" % constsp)
         self.cspv = re.compile("(%s)([aeiou]{1,2})" % constsp)
 
@@ -1835,9 +1832,6 @@ class IT3():
         text = text.replace('\u0965', '.')
         return text
 
-
-
-
     def map_rx(self, my_string):
         if re.search("rx", my_string) is None:
             return my_string
@@ -1850,8 +1844,8 @@ class IT3():
             my_string)
         my_string = self.ncq.sub(
             lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["rx"],
+                          m.group(1)] +
+                      self.hashm_om2i["rx"],
             my_string)
         my_string = self.nqmd.sub(
             lambda m: self.hashv_om2i[m.group(1)] +
@@ -1861,26 +1855,24 @@ class IT3():
 
         my_string = self.nq.sub(
             lambda m: self.hashv_om2i[
-                m.group(1)] ,
+                m.group(1)],
             my_string)
         return my_string
-
 
     # map for vowels at the begining
     def map_a(self, my_string):
         if re.search("(a|e)", my_string) is None:
             return my_string
         my_string = re.sub('\baan:', self.hashv_om2i["aa"] + self.hashmd_om2i["n'"], my_string)
-        my_string = re.sub('\ban:', self.hashv_om2i["a"]+self.hashmd_om2i["n'"], my_string)
-        my_string = re.sub('\ba:', self.hashv_om2i["a"]+self.hashmd_om2i[":"], my_string)
+        my_string = re.sub('\ban:', self.hashv_om2i["a"] + self.hashmd_om2i["n'"], my_string)
+        my_string = re.sub('\ba:', self.hashv_om2i["a"] + self.hashmd_om2i[":"], my_string)
         my_string = re.sub('\baa', self.hashv_om2i["aa"], my_string)
         my_string = re.sub('\bai', self.hashv_om2i["ai"], my_string)
         my_string = re.sub('\bei', self.hashv_om2i["ei"], my_string)
         my_string = re.sub('\bau', self.hashv_om2i["au"], my_string)
         return my_string
 
-    def nit32iscii(self,my_string):
-
+    def nit32iscii(self, my_string):
 
         my_string = self.map_a(my_string)
         # to handle vowels with modifiers to avoid conflict with consonants starting with n
@@ -1889,38 +1881,37 @@ class IT3():
         my_string = self.map_rx(my_string)
         my_string = self.ncvmd.sub(
             lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)] +
-            self.hashmd_om2i[
-                m.group(3)],
+                          m.group(1)] +
+                      self.hashm_om2i[
+                          m.group(2)] +
+                      self.hashmd_om2i[
+                          m.group(3)],
             my_string)
         my_string = self.ncamd.sub(
             lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashmd_om2i[
-                m.group(2)],
+                          m.group(1)] +
+                      self.hashmd_om2i[
+                          m.group(2)],
             my_string)
         my_string = self.ncmd.sub(
             lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashmd_om2i[
-                m.group(2)],
+                          m.group(1)] +
+                      self.hashmd_om2i[
+                          m.group(2)],
             my_string)
 
         my_string = self.ncv.sub(
             lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)],
+                          m.group(1)] +
+                      self.hashm_om2i[
+                          m.group(2)],
             my_string)
-
 
         my_string = self.nca.sub(
             lambda m: self.hashc_om2i[
                 m.group(1)], my_string)
 
-        #check if vowel n: is still present prefixed by vowel, in which case process them first
+        # check if vowel n: is still present prefixed by vowel, in which case process them first
         my_string = self.nvmd.sub(
             lambda m: self.hashv_om2i[
                           m.group(1)] +
@@ -1939,17 +1930,15 @@ class IT3():
             my_string)
         my_string = self.nmd.sub(
             lambda m: self.hashmd_om2i[
-                          m.group(1)] ,
+                m.group(1)],
             my_string)
         my_string = self.nv.sub(
             lambda m: self.hashv_om2i[
-                          m.group(1)] ,
+                m.group(1)],
             my_string)
 
         my_string = my_string.replace('.', self.hashc_om2i["."])
         return my_string
-
-
 
     def iscii2unicode_hin(self, iscii):
         unicode_ = self.i2u.sub(
@@ -2016,81 +2005,81 @@ class IT3():
         # CONSONANT+NUKTA+MATRA+MODIFIER
         my_string = self.cnmmd.sub(
             lambda m: self.hashc_i2w[
-                m.group(1)] +
-            self.hashc_i2w["\xE9"] +
-            self.hashm_i2w[
-                m.group(2)] +
-            self.hashmd_i2w[
-                m.group(3)],
+                          m.group(1)] +
+                      self.hashc_i2w["\xE9"] +
+                      self.hashm_i2w[
+                          m.group(2)] +
+                      self.hashmd_i2w[
+                          m.group(3)],
             my_string)
         # CONSONANT+NUKTA+MATRA
         my_string = self.cnm.sub(
             lambda m: self.hashc_i2w[
-                m.group(1)] +
-            self.hashc_i2w["\xE9"] +
-            self.hashm_i2w[
-                m.group(2)],
+                          m.group(1)] +
+                      self.hashc_i2w["\xE9"] +
+                      self.hashm_i2w[
+                          m.group(2)],
             my_string)
         # CONSONANT+NUKTA+MODIFIER
         my_string = self.cnmd.sub(
             lambda m: self.hashc_i2w[
-                m.group(1)] +
-            self.hashc_i2w["\xE9"] +
-            self.hashmd_i2w[
-                m.group(2)],
+                          m.group(1)] +
+                      self.hashc_i2w["\xE9"] +
+                      self.hashmd_i2w[
+                          m.group(2)],
             my_string)
         # CONSONANT+NUKTA+HALANT
         my_string = self.cnh.sub(
             lambda m: self.hashc_i2w[
-                m.group(1)] +
-            self.hashc_i2w["\xE9"],
+                          m.group(1)] +
+                      self.hashc_i2w["\xE9"],
             my_string)
         # CONSONANT+NUKTA
         my_string = self.cn.sub(
             lambda m: self.hashc_i2w[
-                m.group(1)] +
-            self.hashc_i2w["\xE9"] +
-            "a",
+                          m.group(1)] +
+                      self.hashc_i2w["\xE9"] +
+                      "a",
             my_string)
         # CONSONANT+MATRA+MODIFIER
         my_string = self.cmmd.sub(
             lambda m: self.hashc_i2w[
-                m.group(1)] +
-            self.hashm_i2w[
-                m.group(2)] +
-            self.hashmd_i2w[
-                m.group(3)],
+                          m.group(1)] +
+                      self.hashm_i2w[
+                          m.group(2)] +
+                      self.hashmd_i2w[
+                          m.group(3)],
             my_string)
         # CONSONANT+MATRA
         my_string = self.cm.sub(
             lambda m: self.hashc_i2w[
-                m.group(1)] +
-            self.hashm_i2w[
-                m.group(2)],
+                          m.group(1)] +
+                      self.hashm_i2w[
+                          m.group(2)],
             my_string)
         # CONSONANT+MODIFIER
         my_string = self.cmd.sub(
             lambda m: self.hashc_i2w[
-                m.group(1)] +
-            "a" +
-            self.hashmd_i2w[
-                m.group(2)],
+                          m.group(1)] +
+                      "a" +
+                      self.hashmd_i2w[
+                          m.group(2)],
             my_string)
         # CONSONANT
         my_string = self.c.sub(
             lambda m: self.hashc_i2w[
-                m.group(1)] + "a", my_string)
+                          m.group(1)] + "a", my_string)
         # VOWEL+MODIFIER, VOWEL, MATRA
         my_string = self.vmd.sub(
             lambda m: self.hashv_i2w[
-                m.group(1)] +
-            self.hashmd_i2w[
-                m.group(2)],
+                          m.group(1)] +
+                      self.hashmd_i2w[
+                          m.group(2)],
             my_string)
         my_string = self.amd.sub(
             lambda m: "a" +
-            self.hashmd_i2w[
-                m.group(1)],
+                      self.hashmd_i2w[
+                          m.group(1)],
             my_string)
         my_string = self.v.sub(lambda m: self.hashv_i2w[m.group(1)], my_string)
         # VOWEL A, FULL STOP or VIRAM Northern Scripts
@@ -2374,10 +2363,10 @@ class IT3():
     def it32utf(self, it3):
         """Convert it3-Roman to UTF"""
         unicode_ = ''
-        #it3 uses only lower case letters
-        it3=it3.lower()
-        #replace ~ if found with dash
-        it3=it3.replace("~","-")
+        # it3 uses only lower case letters
+        it3 = it3.lower()
+        # replace ~ if found with dash
+        it3 = it3.replace("~", "-")
         it3_list = self.unmask_rom.split(it3)
         for it3 in it3_list:
             if not it3:
