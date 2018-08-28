@@ -16,59 +16,16 @@ class TestIT3(TestCase):
         super(TestIT3, self).setUp()
         self.languages = 'hin urd ben guj mal pan tel tam kan ori'.split()
         self.test_dir = os.path.dirname(os.path.abspath(__file__))
-    '''
-    def test_raw_text(self):
-        for lang in self.languages:
-            it3_con = IT3C(order='utf2it3', lang=lang)
-            utf_con = IT3C(order='it32utf', lang=lang)
-            with io.open('%s/plain_text/%s.txt' % (self.test_dir, lang),
-                         encoding='utf-8') as fp:
-                for line in fp:
-                    it3 = it3_con.convert(line)
-                    utf = utf_con.convert(it3)
-                    it3_ = it3_con.convert(utf)
-                    self.assertEqual(it3, it3_)
 
-    def test_other(self):
-        for ext in ['ssf', 'conll', 'tnt']:
-            it3_con = IT3C(
-                order='utf2it3',
-                lang='hin',
-                format_=ext,
-                ssf_type='intra',
-                rmask=False)
-            utf_con = IT3C(
-                order='it32utf',
-                lang='hin',
-                format_=ext,
-                ssf_type='intra',
-                rmask=False)
-            with io.open('%s/%s/hin.%s' % (self.test_dir, ext, ext),
-                         encoding='utf-8') as fp:
-                if ext == "ssf":
-                    sentences = re.finditer(
-                        "(<Sentence id=.*?>)(.*?)</Sentence>", fp.read(), re.S)
-                    for sid_sentence in sentences:
-                        sentence = sid_sentence.group(2).strip()
-                        it3 = it3_con.convert(sentence)
-                else:
-                    for line in fp:
-                        it3 = it3_con.convert(line)
-                        utf = utf_con.convert(it3)
-                        it3_ = it3_con.convert(utf)
-                        self.assertEqual(it3, it3_)
-    '''
     def test_tel_map(self):
         lang="tel"
         telmap={
 
-                'A':'అ',
-
-
                 'a':'అ', 'aa':'ఆ', 'i':'ఇ', 'ii':'ఈ', 'u':'ఉ', 'uu':'ఊ',
                    'e':'ఎ', 'o':'ఒ',
                 'ei': 'ఏ', 'ai': 'ఐ', 'oo': 'ఓ', 'au': 'ఔ',
-                'rx': 'ఋ', 'rx-': 'ఋూ',
+                'rx': 'ఋ',
+                #'rx-': 'ఋూ',
             #'lx': 'ఌ',
                      'ka':'క',
                      'kha':'ఖ', 'ga':'గ', 'gha':'ఘ',
@@ -117,6 +74,7 @@ class TestIT3(TestCase):
             'dussvapnamu': 'దుస్స్వప్నము',
             'shleishhmajyooshht\'amu':'శ్లేష్మజ్యోష్టము',
             'and-vastramu': 'అణ్వస్త్రము',
+            #'Vein\'kat\'a':'వేంకట',
                      '.':'.',
                      ',':',', '?':'?', '0':'0', '1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'6', '7':'7',
                      '8':'8', '9':'9', ';':';', '-':'-', '\\':'\\', '<':'<', '>':'>', '/':'/', '[':'[',
@@ -129,4 +87,6 @@ class TestIT3(TestCase):
         utf_con = IT3C(order='it32utf', lang=lang)
 
         for item in telmap.keys():
-            self.assertEqual( utf_con.convert(item), telmap.get(item))
+            exp_text=telmap.get(item)
+            conv_text=utf_con.convert(item)
+            self.assertEqual(conv_text, exp_text.decode(encoding="utf-8"))

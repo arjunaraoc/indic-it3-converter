@@ -3,8 +3,7 @@
 
 # Copyright Irshad Ahmad Bhat 2016.
 # Copyright Arjuna Rao Chavala 2018
-# IT3 mapping(select language)
-# Another javascript/conversion example at
+# IT3 mapping Checked for Telugu.
 
 from __future__ import unicode_literals
 
@@ -31,7 +30,7 @@ class IT3():
     norm : bool, default: False
         If True returns normalized text without it3-Conversion
     """
-    def __init__(self, lang='hin', order='utf2it3', rmask=True, norm=False):
+    def __init__(self, lang='tel', order='utf2it3', rmask=True, norm=False):
         self.norm = norm
         self.order = order
         self.lang = lang.lower()
@@ -149,9 +148,9 @@ class IT3():
             "uu": "\xA9",
             "aU": "\xA9",
             "rx": "\xAA",
-            "aq": "\xAA",
+            #"aq": "\xAA",
             "e": "\xAB",
-            "rx-": "\xAB",
+            # "rx-": "\xAB",
             "ei": "\xAC",
             "ae": "\xAC",
             "ee": "\xAD",
@@ -183,7 +182,7 @@ class IT3():
             "uu": "\xDE",
             "aU": "\xDE",
             "rx": "\xDF",
-            "rx-": "\xDF",
+            #"rx-": "\xDF",
             "e": "\xE0",
             "aeV": "\xE0",
             "ei": "\xE1",
@@ -912,17 +911,18 @@ class IT3():
             "\xF9": "\u0AEE",  # Digit 8
             "\xFA": "\u0AEF",  # Digit 9
         }
-        # WX to IT3 to be done in the following line of code
+
+        # Change from WX to IT3  done in the following lines of code for Telugu
+
         # compile regexes
         const = 'kgfcjtdpbmylvshrn'
         # special consonants which take two or more letters
         constsp ='t:|d:|ng~|nj~|nd~|l:|r:|sh'
         # new unified defintion where regex can follow match order
         nconst= 'shh|chh|ng-|nj-|nd-|t\'h|d\'h|kh|gh|ch|jh|th|dh|ph|bh|sh|t\'|l\'|r\'|d\'|k|g|j|t|d|n|p|b|m|y|r|l|v|s|h'
-        nvovel='rx-|rx|ei|ai|au|aa|ii|uu|ee|oo|a|i|u|e|o'
+        nvovel='rx-|rx|ei|ai|au|aa|ii|uu|oo|a|i|u|e|o'
         nmd='n\'|:'
-        #nmd='n:'
-        nq='rx|rx-'
+        nq = 'rx'
 
 
         self.ncvmd= re.compile("(%s)(%s)(%s)" % (nconst,nvovel,nmd))
@@ -959,50 +959,14 @@ class IT3():
         self.cv = re.compile("([%s])([aeiou]{1,2})" % const)
         self.camd = re.compile("([%s])a(n?:)" % const)
 
-
-        #self.cZeV = re.compile("([%s])ZeV" % const)
-        #self.cZeVmd = re.compile("([%s])ZeV([MHz])" % const)
-
-        ## TO DO MAP PROCESSING..
-
-        #self.cEYmd = re.compile("([%s])EY([MHz])" % const)
-        #self.cEY = re.compile("([%s])EY" % const)
-        #self.cOYmd = re.compile("([%s])OY([MHz])" % const)
-        #self.coVmd = re.compile("([%s])oV([MHz])" % const)
-        #self.coV = re.compile("([%s])oV" % const)
-        #self.cZoV = re.compile("([%s])ZoV" % const)
-        #self.cZoVmd = re.compile("([%s])ZoV([MHz])" % const)
-        #self.cOY = re.compile("([%s])OY" % const)
-        #self.cZOY = re.compile("([%s])ZOY" % const)
-
-
-        #self.cZvmd = re.compile("([%s])Z([AiIuUeEoO])([MHz])" % const)
-
-
-        #self.cZv = re.compile("([%s])Z([AiIuUeEoO])" % const)
-
-        #self.cZamd = re.compile("([%s])Za([MHz])" % const)
-        #self.cZmd = re.compile("([%s])Z([MHz])" % const)
-
-        #self.cZa = re.compile("([%s])Za" % const)
-        #self.cYZa = re.compile("([%s])YZa" % const)
-
-
-
-        #self.cZ = re.compile("([%s])Z" % const)
-        #self.aqmd = re.compile("aq([MHz])")
-
-
-
-        self.cspqmd= re.compile("(%s)rx(n?:)" % constsp)
-        self.cspq= re.compile("(%s)rx" % constsp)
+        self.cspqmd = re.compile("(%s)rx(n?:)" % constsp)
+        self.cspq = re.compile("(%s)rx" % constsp)
         self.cqmd = re.compile("([%s])rx(n?:)" % const)
         self.cq = re.compile("([%s])rx" % const)
         self.qmd = re.compile("rx(n?:)")
 
         self.dig = re.compile("([0-9])")
         self.i2u = re.compile('([\xA1-\xFB])')
-
 
     def initialize_utf2it3_hash(self):
         self.hashc_i2w = {
@@ -1871,259 +1835,8 @@ class IT3():
         text = text.replace('\u0965', '.')
         return text
 
-    def map_ZeV(self, my_string):
-        if 'ZeV' not in my_string:
-            return my_string
-        my_string = self.cZeVmd.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashc_om2i["Z"] +
-                      self.hashm_om2i["eV"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = self.cZeV.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashc_om2i["Z"] +
-                      self.hashm_om2i["eV"],
-            my_string)
-        return my_string
 
-    def map_eV(self, my_string):
-        if 'eV' not in my_string:
-            return my_string
-        my_string = self.ceVmd.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["eV"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = self.ceV.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["eV"],
-            my_string)
-        return my_string
 
-    def map_EY(self, my_string):
-        if 'EY' not in my_string:
-            return my_string
-        my_string = self.cEYmd.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["EY"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = self.cEY.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["EY"],
-            my_string)
-        return my_string
-    # to handle consonants followed by special vowels
-    def map_e3(self, my_string):
-        if re.search("(ei|ai|au)", my_string) is None:
-            return my_string
-        my_string = self.cspe3md.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i[m.group(2)] +
-                      self.hashmd_om2i[
-                m.group(3)],
-            my_string)
-        my_string = self.cspe3.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[m.group(2)],
-            my_string)
-        my_string = self.ce3md.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i[m.group(2)] +
-                      self.hashmd_om2i[
-                m.group(3)],
-            my_string)
-        return my_string
-        my_string = self.ce3.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[m.group(2)],
-            my_string)
-        return my_string
-
-    def map_sp(self, my_string):
-        if re.search("(ei|ai|au)", my_string) is None:
-            return my_string
-        my_string = self.ce3md.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i[m.group(2)] +
-                      self.hashmd_om2i[
-                m.group(3)],
-            my_string)
-        my_string = self.ce3.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[m.group(2)],
-            my_string)
-        return my_string
-
-    def map_ZoV(self, my_string):
-        if 'ZoV' not in my_string:
-            return my_string
-        my_string = self.cZoVmd.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashc_om2i["Z"] +
-                      self.hashm_om2i["oV"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = self.cZoV.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashc_om2i["Z"] +
-                      self.hashm_om2i["oV"],
-            my_string)
-        return my_string
-
-    def map_oV(self, my_string):
-        if 'oV' not in my_string:
-            return my_string
-        my_string = self.coVmd.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["oV"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = self.coV.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["oV"],
-            my_string)
-        return my_string
-
-    def map_OY(self, my_string):
-        if 'OY' not in my_string:
-            return my_string
-        if 'Z' in my_string:
-            my_string = self.cZOY.sub(
-                lambda m: self.hashc_om2i[
-                    m.group(1)] +
-                          self.hashc_om2i["Z"] +
-                          self.hashm_om2i["OY"],
-                my_string)
-        my_string = self.cOYmd.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["OY"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = self.cOY.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["OY"],
-            my_string)
-        return my_string
-
-    def map_Z(self, my_string):
-        if 'Z' not in my_string:
-            return my_string
-        my_string = self.cZvmd.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashc_om2i["Z"] +
-                      self.hashm_om2i[
-                m.group(2)] +
-                      self.hashmd_om2i[
-                m.group(3)],
-            my_string)
-        my_string = self.cZv.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashc_om2i["Z"] +
-                      self.hashm_om2i[
-                m.group(2)],
-            my_string)
-        my_string = self.cZamd.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashc_om2i["Z"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = self.cZmd.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashc_om2i["Z"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = self.cZa.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashc_om2i["Z"],
-            my_string)
-        my_string = self.cYZa.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1) +
-                "Y"] +
-            self.hashc_om2i["Z"],
-            my_string)
-        my_string = self.cZ.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashc_om2i["Z"] +
-                      self.hashc_om2i["_"],
-            my_string)
-        return my_string
-    # modified for it3 with same name (q is for the letter r and its variants)
-    def map_q(self, my_string):
-        if re.search("rx", my_string) is None:
-            return my_string
-        my_string = self.cspqmd.sub(
-            lambda m: self.hashc_om2i[
-                          m.group(1)] +
-                      self.hashm_om2i["rx"] +
-                      self.hashmd_om2i[
-                          m.group(2)],
-            my_string)
-        my_string = self.cqmd.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["rx"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-
-        my_string = self.qmd.sub(
-            lambda m: self.hashv_om2i[m.group(1)] +
-                      self.hashmd_om2i[
-                "rx"],
-            my_string)
-        my_string = self.cspq.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["rx"],
-            my_string)
-        my_string = self.cq.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["rx"],
-            my_string)
-        '''
-        my_string = self.aqmd.sub(
-            lambda m: self.hashv_om2i["aq"] +
-                      self.hashmd_om2i[
-                m.group(1)],
-            my_string)
-        '''
-        return my_string
 
     def map_rx(self, my_string):
         if re.search("rx", my_string) is None:
@@ -2133,7 +1846,7 @@ class IT3():
                           m.group(1)] +
                       self.hashm_om2i["rx"] +
                       self.hashmd_om2i[
-                          m.group(2)],
+                          m.group(3)],
             my_string)
         my_string = self.ncq.sub(
             lambda m: self.hashc_om2i[
@@ -2143,469 +1856,15 @@ class IT3():
         my_string = self.nqmd.sub(
             lambda m: self.hashv_om2i[m.group(1)] +
                       self.hashmd_om2i[
-                "rx"],
+                          m.group(2)],
             my_string)
 
         my_string = self.nq.sub(
             lambda m: self.hashv_om2i[
                 m.group(1)] ,
             my_string)
-        '''
-        my_string = self.aqmd.sub(
-            lambda m: self.hashv_om2i["aq"] +
-                      self.hashmd_om2i[
-                m.group(1)],
-            my_string)
-        '''
         return my_string
 
-    def map_lYY(self, my_string):
-        if 'lYY' not in my_string:
-            return my_string
-        my_string = re.sub(
-            '(lYY)eV([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["eV"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(lYY)eV', lambda m: self.hashc_om2i[
-                m.group(1)] + self.hashm_om2i["eV"], my_string)
-        my_string = re.sub(
-            '(lYY)EY([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["EY"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(lYY)EY', lambda m: self.hashc_om2i[
-                m.group(1)] + self.hashm_om2i["EY"], my_string)
-        my_string = re.sub(
-            '(lYY)oV([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["oV"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(lYY)oV', lambda m: self.hashc_om2i[
-                m.group(1)] + self.hashm_om2i["oV"], my_string)
-        my_string = re.sub(
-            '(lYY)OY([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["OY"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(lYY)OY', lambda m: self.hashc_om2i[
-                m.group(1)] + self.hashm_om2i["OY"], my_string)
-        my_string = re.sub(
-            '(lYY)([AiIuUeEoO])([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)] +
-            self.hashmd_om2i[
-                m.group(3)],
-            my_string)
-        my_string = re.sub(
-            '(lYY)([AiIuUeEoO])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(lYY)a([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(lYY)a', lambda m: self.hashc_om2i[
-                m.group(1)], my_string)
-        my_string = re.sub(
-            '(lYY)', lambda m: self.hashc_om2i[
-                m.group(1)] + self.hashc_om2i["_"], my_string)
-        return my_string
-
-    def map_lY(self, my_string):
-        if 'lY' not in my_string:
-            return my_string
-        my_string = re.sub(
-            '(lY)eV([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["eV"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(lY)eV',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["eV"],
-            my_string)
-        my_string = re.sub(
-            '(lY)EY([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["EY"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(lY)EY',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["EY"],
-            my_string)
-        my_string = re.sub(
-            '(lY)oV([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["oV"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(lY)oV',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["oV"],
-            my_string)
-        my_string = re.sub(
-            '(lY)OY([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["OY"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(lY)OY',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["OY"],
-            my_string)
-        my_string = re.sub(
-            '(lY)([AiIuUeEoO])([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)] +
-            self.hashmd_om2i[
-                m.group(3)],
-            my_string)
-        my_string = re.sub(
-            '(lY)([AiIuUeEoO])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(lY)a([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(lY)a', lambda m: self.hashc_om2i[
-                m.group(1)], my_string)
-        my_string = re.sub(
-            '(lY)',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashc_om2i["_"],
-            my_string)
-        return my_string
-
-    def map_nY(self, my_string):
-        if 'nY' not in my_string:
-            return my_string
-        my_string = re.sub(
-            '(nY)eV([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["eV"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(nY)eV',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["eV"],
-            my_string)
-        my_string = re.sub(
-            '(nY)EY([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["EY"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(nY)EY',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["EY"],
-            my_string)
-        my_string = re.sub(
-            '(nY)oV([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["oV"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(nY)oV',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["oV"],
-            my_string)
-        my_string = re.sub(
-            '(nY)OY([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["OY"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(nY)OY',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["OY"],
-            my_string)
-        my_string = re.sub(
-            '(nY)([AiIuUeEoO])([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)] +
-            self.hashmd_om2i[
-                m.group(3)],
-            my_string)
-        my_string = re.sub(
-            '(nY)([AiIuUeEoO])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(nY)a([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(nY)a', lambda m: self.hashc_om2i[
-                m.group(1)], my_string)
-        my_string = re.sub(
-            '(nY)',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashc_om2i["_"],
-            my_string)
-        return my_string
-
-    def map_rY(self, my_string):
-        if 'rY' not in my_string:
-            return my_string
-        my_string = re.sub(
-            '(rY)eV([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["eV"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(rY)eV',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["eV"],
-            my_string)
-        my_string = re.sub(
-            '(rY)EY([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["EY"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(rY)EY',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["EY"],
-            my_string)
-        my_string = re.sub(
-            '(rY)oV([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["oV"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(rY)oV',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["oV"],
-            my_string)
-        my_string = re.sub(
-            '(rY)OY([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-                      self.hashm_om2i["OY"] +
-                      self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(rY)OY',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i["OY"],
-            my_string)
-        my_string = re.sub(
-            '(rY)([AiIuUeEoO])([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)] +
-            self.hashmd_om2i[
-                m.group(3)],
-            my_string)
-        my_string = re.sub(
-            '(rY)([AiIuUeEoO])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(rY)a([MHz])',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '(rY)a', lambda m: self.hashc_om2i[
-                m.group(1)], my_string)
-        my_string = re.sub(
-            '(rY)',
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashc_om2i["_"],
-            my_string)
-        return my_string
-
-    def map_eV2(self, my_string):
-        if 'eV' not in my_string:
-            return my_string
-        my_string = re.sub(
-            'aeV([MHz])',
-            lambda m: self.hashv_om2i["aeV"] +
-                      self.hashmd_om2i[
-                m.group(1)],
-            my_string)
-        my_string = my_string.replace('aeV', self.hashv_om2i["aeV"])
-        my_string = re.sub(
-            'eV([MHz])',
-            lambda m: self.hashv_om2i["eV"] +
-                      self.hashmd_om2i[
-                m.group(1)],
-            my_string)
-        my_string = my_string.replace('eV', self.hashv_om2i["eV"])
-        return my_string
-
-    # to handle specially mapped vowels at the begining ei ai au a and its modifiers
-    def map_eiaiau(self,my_string):
-        if re.match("(ei|ai|au)", my_string) is None:
-            return my_string
-        my_string = re.sub(
-            "(ei|ai|au)(n?:)",
-            lambda m: self.hashv_om2i[m.group(1)]+
-                        self.hashmd_om2i[m.group(2)],
-            my_string)
-        my_string = re.sub(
-            "(ei|ai|au)",
-            lambda m: self.hashv_om2i[m.group(1)],
-            my_string)
-        return my_string
-
-    def map_EY2(self, my_string):
-        if 'EY' not in my_string:
-            return my_string
-        my_string = re.sub(
-            'aEY([MHz])',
-            lambda m: self.hashv_om2i["aEY"] +
-                      self.hashmd_om2i[
-                m.group(1)],
-            my_string)
-        my_string = my_string.replace('aEY', self.hashv_om2i["aEY"])
-        my_string = re.sub(
-            'EY([MHz])',
-            lambda m: self.hashv_om2i["EY"] +
-                      self.hashmd_om2i[
-                m.group(1)],
-            my_string)
-        my_string = my_string.replace('EY', self.hashv_om2i["EY"])
-        return my_string
-
-    def map_oV2(self, my_string):
-        if 'oV' not in my_string:
-            return my_string
-        my_string = re.sub(
-            'aoV([MHz])',
-            lambda m: self.hashv_om2i["aoV"] +
-                      self.hashmd_om2i[
-                m.group(1)],
-            my_string)
-        my_string = my_string.replace('aoV', self.hashv_om2i["aoV"])
-        my_string = re.sub(
-            'oV([MHz])',
-            lambda m: self.hashv_om2i["oV"] +
-                      self.hashmd_om2i[
-                m.group(1)],
-            my_string)
-        my_string = my_string.replace('oV', self.hashv_om2i["oV"])
-        return my_string
-
-    def map_OY2(self, my_string):
-        if 'OY' not in my_string:
-            return my_string
-        my_string = re.sub(
-            'aOY([MHz])',
-            lambda m: self.hashv_om2i["aOY"] +
-                      self.hashmd_om2i[
-                m.group(1)],
-            my_string)
-        my_string = my_string.replace('aOY', self.hashv_om2i["aOY"])
-        my_string = re.sub(
-            'OY([MHz])',
-            lambda m: self.hashv_om2i["OY"] +
-                      self.hashmd_om2i[
-                m.group(1)],
-            my_string)
-        my_string = my_string.replace('OY', self.hashv_om2i["OY"])
-        return my_string
 
     # map for vowels at the begining
     def map_a(self, my_string):
@@ -2618,30 +1877,11 @@ class IT3():
         my_string = re.sub('\bai', self.hashv_om2i["ai"], my_string)
         my_string = re.sub('\bei', self.hashv_om2i["ei"], my_string)
         my_string = re.sub('\bau', self.hashv_om2i["au"], my_string)
-
-
-
-        # my_string = re.sub('\BaI', self.hashv_om2i["aI"], my_string)
-        # my_string = re.sub('\BaU', self.hashv_om2i["aU"], my_string)
-        #my_string = re.sub('\Bae', self.hashv_om2i["ae"], my_string)
-        # my_string = re.sub('\BaE', self.hashv_om2i["aE"], my_string)
-        #my_string = re.sub('\BaO', self.hashv_om2i["aO"], my_string)
-
         return my_string
+
     def nit32iscii(self,my_string):
 
-        '''
-        self.ncvmd= re.compile("(%s)(%s)(%s)" % nconst,nvovel,nmd)
-        self.ncamd=re.compile("(%s)a(%s)" % nconst,nmd))
-        self.ncmd= re.compile("(%s)(%s)" % nconst,nmd)
-        self.ncv= re.compile("(%s)(%s)" % nconst,nvovel)
-        self.nca= re.compile("(%s)a" % nconst)
-        self.nc=re.compile("(%s)" % nconst)
-        self.nvmd= re.compile("(%s)(%s)" % nvovel,nmd)
-        self.nmd=re.compile("(%s)" % nmd)
-        self.nv=re.compile("(%s)" % nvovel)
 
-        '''
         my_string = self.map_a(my_string)
         # to handle vowels with modifiers to avoid conflict with consonants starting with n
 
@@ -2709,140 +1949,7 @@ class IT3():
         my_string = my_string.replace('.', self.hashc_om2i["."])
         return my_string
 
-    def it32iscii(self, my_string):
-        """Convert it3 to ISCII"""
-        if self.lang == 'pan':
-            my_string = my_string.replace('EY', self.hashv_om2i["E"] + 'Y')
-        my_string = self.map_a(my_string)
-        # to handle vowels with modifiers to avoid conflict with consonants starting with n
 
-        # for telugu rx retained the map function name for ra processing
-        my_string = self.map_q(my_string)
-
-
-        # my_string = self.map_ZeV(my_string)
-        # my_string = self.map_eV(my_string)
-        # my_string = self.map_EY(my_string)
-
-        # my_string = self.map_ZoV(my_string)
-        # my_string = self.map_oV(my_string)
-        # my_string = self.map_OY(my_string)
-        # my_string = self.map_Z(my_string)
-
-        #my_string = self.map_lYY(my_string)
-        #my_string = self.map_lY(my_string)
-        #my_string = self.map_nY(my_string)
-        #my_string = self.map_rY(my_string)
-        my_string = self.cspvmd.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)] +
-            self.hashmd_om2i[
-                m.group(3)],
-            my_string)
-        my_string = self.cspamd.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = self.cspv.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)],
-            my_string)
-        my_string = self.cspa.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)], my_string)
-
-
-        my_string = self.csp.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashc_om2i["_"],
-            my_string)
-        my_string = self.cvmd.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)] +
-            self.hashmd_om2i[
-                m.group(3)],
-            my_string)
-        my_string = self.cv.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashm_om2i[
-                m.group(2)],
-            my_string)
-
-        my_string = self.camd.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = self.ca.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)], my_string)
-
-
-
-        my_string = my_string.replace('rx', self.hashv_om2i["rx"])
-        #check if vowel n: is still present prefixed by vowel, in which case process them first
-        my_string = re.sub(
-            '([aeiou]{1,2})(n?:)',
-            lambda m: self.hashv_om2i[
-                          m.group(1)] +
-                      self.hashmd_om2i[
-                          m.group(2)],
-            my_string)
-        # string does not have consonants similar to n:
-        my_string = self.c.sub(
-            lambda m: self.hashc_om2i[
-                m.group(1)] +
-            self.hashc_om2i["_"],
-            my_string)
-        # my_string = my_string.replace('aq', self.hashv_om2i["aq"])
-
-
-
-
-        # Added for the case of U0946
-        # my_string = self.map_eV2(my_string)
-        # Added for the case of U0945
-        # my_string = self.map_EY2(my_string)
-        # Added for the case of U094A
-        # my_string = self.map_oV2(my_string)
-        # Added for the case of U0949
-        # my_string = self.map_OY2(my_string)
-        my_string = self.map_eiaiau(my_string)
-        # Added for special vowel mappings of ei ai,au after consonants
-        my_string = self.map_e3(my_string)
-
-
-        my_string = re.sub(
-            '([aeiou]{1,2})(n?:)',
-            lambda m: self.hashv_om2i[
-                m.group(1)] +
-            self.hashmd_om2i[
-                m.group(2)],
-            my_string)
-        my_string = re.sub(
-            '([aeiou]{1,2})',
-            lambda m: self.hashv_om2i[
-                m.group(1)],
-            my_string)
-        my_string = my_string.replace('.', self.hashc_om2i["."])
-
-        # For PUNJABI ADDAK
-        my_string = my_string.replace("Y", "\xFB")
-        # Replace Roman Digits with ISCII
-        # my_string = self.dig.sub(lambda m: self.digits_om2i[m.group(1)],
-        #                         my_string)
-        return my_string
 
     def iscii2unicode_hin(self, iscii):
         unicode_ = self.i2u.sub(

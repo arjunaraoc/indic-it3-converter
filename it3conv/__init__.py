@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
-# Copyright Irshad Ahmad Bhat 2016.
+# Copyright Arjuna Rao Chavala 2018
+# based on Irshad's WX conversion code
 
 
 from __future__ import unicode_literals
@@ -99,7 +100,9 @@ def main():
     # parse command line arguments
     parser = argparse.ArgumentParser(
         prog="converter-indic",
-        description="it3-utf converter for Indian languages",
+        description='''it3-utf converter for Indian language Telugu 
+            (ensure valid it3, use of single quote rather than single right quote 
+            and also removing underscores)''',
         formatter_class=RawTextHelpFormatter)
     parser.add_argument(
         '-v',
