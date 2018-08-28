@@ -89,4 +89,4 @@ class TestIT3(TestCase):
         for item in telmap.keys():
             exp_text=telmap.get(item)
             conv_text=utf_con.convert(item)
-            self.assertEqual(conv_text, exp_text.decode(encoding="utf-8"))
+            self.assertEqual(conv_text, exp_text)
