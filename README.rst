@@ -83,6 +83,7 @@ Examples
 ^^^^^^^^^^^^^^
 
 .. code:: python
+
     Example for Telugu it3 to Utf-8
     -------------------------------
     >>> from it3conv import IT3C
@@ -92,9 +93,4 @@ Examples
     >>> print(tel_utf_)
     ... తిరుమల తిరుపతి ఆంధ్రులకు పవిత్ర పుణ్య క్షేత్రము
     >>>
-
-
-
-
-
 
