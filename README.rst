@@ -74,13 +74,13 @@ Examples
     -z, --normalize     set this flag for utf normalizations without WX-Conversion
 
 2. utf to it3 (plain text):
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
     Not implemented
 
 3. it3 to utf:
-^^^^^^^^^^^^^
+^^^^^^^^^^^^^^
 
 .. code:: python
     Example for Telugu it3 to Utf-8
@@ -92,6 +92,8 @@ Examples
     >>> print(tel_utf_)
     ... తిరుమల తిరుపతి ఆంధ్రులకు పవిత్ర పుణ్య క్షేత్రము
     >>>
+
+
 
 
 
