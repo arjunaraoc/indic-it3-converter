@@ -1,16 +1,13 @@
 indic-it3-converter
 ===================
 
-|Build Status| |Coverage Status| |CircleCI|
+|Build Status| |Coverage Status|
 
 .. |Build Status| image:: https://travis-ci.org/arjunaraoc/indic-it3-converter.svg?branch=master 
    :target: https://travis-ci.org/arjunaraoc/indic-it3-converter
 
 .. |Coverage Status| image:: https://coveralls.io/repos/github/arjunaraoc/indic-it3-converter/badge.svg?branch=master 
    :target: https://coveralls.io/github/arjunaraoc/indic-it3-converter?branch=master
-
-.. |CircleCI| image:: https://circleci.com/gh/arjunaraoc/indic-it3-converter.svg?style=shield&circle-token=:circle-token 
-    :target: https://circleci.com/gh/arjunaraoc/indic-it3-converter
 
 
 Python library for IT3 to UTF conversion  for Indian languages.
