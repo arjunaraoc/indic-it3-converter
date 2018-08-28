@@ -100,8 +100,8 @@ def main():
     # parse command line arguments
     parser = argparse.ArgumentParser(
         prog="converter-indic",
-        description='''it3-utf converter for Indian language Telugu 
-            (ensure valid it3, use of single quote rather than single right quote 
+        description='''it3-utf converter for Indian language Telugu
+            (ensure valid it3, use single quote insteadof single right quote
             and also removing underscores)''',
         formatter_class=RawTextHelpFormatter)
     parser.add_argument(

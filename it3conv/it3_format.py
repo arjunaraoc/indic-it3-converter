@@ -18,15 +18,14 @@ This module is a UTF (Indian Scripts) to Roman (IT3) convertor and vice-versa:
 
 from __future__ import unicode_literals
 
-import re
+
 import sys
 
 from .it3 import IT3
-from .ssf_reader import SSFReader
 
 
 class IT3C():
-    """IT3-converter for UTF to IT3 conversion of Indic (Telugu) scripts and vice-versa.
+    """IT3-converter for UTF to IT3 conversion of Indic (Telugu) script.
 
     Parameters
     ----------
@@ -50,10 +49,10 @@ class IT3C():
     --------
     >>> from it3conv import IT3C
     >>> it3c = IT3C(lang='tel', order='it32utf')
-    >>> tel_it3=u'''tirumala tirupati aan\'dhrulaku pavitra pund-ya kshheitramu'''
+    >>> tel_it3=u'''tirumala tirupati aan\'dhrulaku pund-ya kshheitramu'''
     >>> tel_utf_ = it3c.convert(tel_it3)
     >>> print(tel_utf_)
-    తిరుమల తిరుపతి ఆంధ్రులకు పవిత్ర పుణ్య క్షేత్రము
+    తిరుమల తిరుపతి ఆంధ్రులకు పుణ్య క్షేత్రము
     """
 
     def __init__(self, order="utf2it3", format_="text", lang="hin",
