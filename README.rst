@@ -83,7 +83,7 @@ Not implemented
 
 .. code:: python
     Example for Telugu it3 to Utf-8
-    --------
+    -------------------------------
     >>> from it3conv import IT3C
     >>> it3c = IT3C(lang='tel', order='it32utf')
     >>> tel_it3=u'''tirumala tirupati aan\'dhrulaku pavitra pund-ya kshheitramu'''
