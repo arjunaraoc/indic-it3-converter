@@ -3,7 +3,7 @@
 
 # Copyright Irshad Ahmad Bhat 2016.
 # Copyright Arjuna Rao Chavala 2018
-# IT3 mapping Checked for Telugu.
+# IT3 mapping Checked for Telugu and works for other languages
 
 from __future__ import unicode_literals
 
@@ -1881,7 +1881,7 @@ class IT3():
         # to avoid conflict with consonants starting with n
         my_string = self.map_a(my_string)
 
-        # for telugu rx retained the map function name for ra processing
+        # for telugu rx  processing
         my_string = self.map_rx(my_string)
         my_string = self.ncvmd.sub(
             lambda m: self.hashc_om2i[
@@ -2117,7 +2117,7 @@ class IT3():
         unicode_ = unicode_.replace('\u0c46\u0c56', '\u0c48')
         if self.norm:
             return unicode_
-        # Convert Telugu Unicode values to ISCII values
+        # Convert Unicode values to ISCII values
         iscii_tel = self.u2i_t.sub(
             lambda m: self.hasht_u2i.get(
                 m.group(1), ""), unicode_)

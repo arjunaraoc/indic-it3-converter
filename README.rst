@@ -11,6 +11,17 @@ indic-it3-converter
 
 
 Python library for IT3 to UTF conversion  for Indian languages.
+Initial code adopted from WX to UTF converter link_.
+
+.. _link: https://github.com/ltrc/indic-wx-converter
+
+`IT3 info`_.
+
+.. _IT3 info: http://www.ulib.org/conference/2005/17.pdf
+
+Telugu tested fully.
+DLI metadata is  full of errors, hence the tool based conversion
+to unicode is not highly useful.
 
 Installation
 ------------
@@ -41,7 +52,7 @@ Examples
 1. work with files:
 ^^^^^^^^^^^^^^^^^^^
 
-.. parsed-literal::
+.. parsed-literal:: (works with -f text only)
 
     it3conv --f ssf --t intra --n --l hin --s utf --i hin-utf.ssf --o hin-it3.ssf
 
@@ -68,7 +79,7 @@ Examples
     -m, --no-mask       set this flag to keep off masking of roman strings in Indic text
     -i , --input        <input-file>
     -o , --output       <output-file>
-    -z, --normalize     set this flag for utf normalizations without WX-Conversion
+    -z, --normalize     set this flag for utf normalizations without IT3-Conversion
 
 2. utf to it3 (plain text):
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -85,9 +96,18 @@ Examples
     -------------------------------
     >>> from it3conv import IT3C
     >>> it3c = IT3C(lang='tel', order='it32utf')
-    >>> tel_it3=u'''tirumala tirupati aan\'dhrulaku pavitra pund-ya kshheitramu'''
-    >>> tel_utf_ = it3c.convert(tel_it3)
-    >>> print(tel_utf_)
-    ... తిరుమల తిరుపతి ఆంధ్రులకు పవిత్ర పుణ్య క్షేత్రము
+    >>> tel_it3=u'''tirumala tirupati aan\'dhrulaku pund-ya kshheitramu'''
+    >>> tel_utf = it3c.convert(tel_it3)
+    >>> print(tel_utf)
+    ... తిరుమల తిరుపతి ఆంధ్రులకు పుణ్య క్షేత్రము
     >>>
 
+    Example for Hindi it3 to Utf-8
+    ------------------------------
+    >>> from it3conv import IT3C
+    >>> it3c = IT3C(lang='hin', order='it32utf')
+    >>> hin_it3=u'''Ankhiya Nihar Ke Pag-dhuri Jhar Ke'''
+    >>> hin_utf = it3c.convert(hin_it3)
+    >>> print(hin_utf)
+    ... अन्खिय निहर् कॆ पग्-धुरि झर् कॆ
+    >>>
